@@ -1,0 +1,60 @@
+<nav>
+        <div class="logo-can">
+            <a href="{{CONFIG site_url}}"><img src="http://kaderidegistiren.com/images/logo.png" alt="Logo"></a>
+        </div>
+        <div class="nav-items">
+            <a onclick="nav1()" href="{{LINK home}}" data-load="?link1=home"><span class="nav1 nav-item nav-active">{{LANG Home}}</span></ap>
+            <a onclick="nav2()" href="{{LINK about}}" data-load="?link1=about"><span class="nav2 nav-item ">{{LANG About}}</span></a>
+            <a onclick="nav3()" href="{{LINK lesson}}" data-load="?link1=lesson"><span class="nav3 nav-item ">{{LANG Lessons}}</span></a>
+            <a onclick="nav4()" href="{{LINK contact}}" data-load="?link1=contact"> <span class="nav4 nav-item">{{LANG Contact}}</span></a>
+            <a onclick="nav5()" href="{{LINK register}}" data-load="?link1=register"><span class="nav5 nav-item">{{LANG Register}}</span></a>
+            <?php if($_SESSION['lang'] == 'turkish'){ ?>
+                  
+                <a class="nav-item" href="?lang=english" rel="nofollow"><img class="u-list__link-icon mr-2" src="{{CONFIG theme_url}}/images/flags/english.svg" alt=""></a>
+                 <?php } else { ?> 
+                 <a class="nav-item" href="?lang=turkish" rel="nofollow"><img class="u-list__link-icon mr-2" src="{{CONFIG theme_url}}/images/flags/turkish.svg" alt=""></a>
+
+ 
+             <?php } ?>
+        </div>
+        <div onclick="toggleNav()" class="toggle-nav">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+
+	
+<script>
+    $(function() {
+   
+
+          let form1 = $('form.login-form');
+        form1.ajaxForm({
+            url: '{{LINK aj/login}}?hash=' + $('.main_session').val(),
+            dataTyep:'json',
+            beforeSend: function() {
+                form1.find('button').text("{{LANG please_wait}}");
+            },
+            success: function(data) {
+                if (data.status == 200) {
+                    if( data.session_id !== '' ){
+                        window.location = '{{LINK session_login}}?sid='+data.session_id;
+                        return false;
+                    }
+                    $('.login-alert').html($('<div>',{
+                        class: "alert alert-success",
+                        html: data.message
+                    }));
+                    $('.alert-success').fadeIn(300);
+                }
+                else {
+                    $('.login-alert').html($('<div>',{
+                        class: "alert alert-danger",
+                        html: data.message
+                    }));
+                    form1.find('button').replaceWith('<button type="submit" class="btn btn-block btn-primary u-btn-primary transition-3d-hover">'+"{{LANG login}}"+'</button>');
+                }
+            }
+        });
+    });
+</script>

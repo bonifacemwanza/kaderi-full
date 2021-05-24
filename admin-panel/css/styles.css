@@ -1,0 +1,620 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+
+}
+:root {
+    --gradient: linear-gradient(to top, #000b6b,#004e92 );
+    --main-color: #000e91;
+}
+a{
+    text-decoration: none;
+    color: inherit;
+}
+section {
+    display: flex  !important;
+    flex: 1;
+}
+table{
+    width: 90%;
+    border: 1px solid var(--main-color);
+    border-radius: 5px;
+    min-width: 500px;
+    text-align: center;
+    font-size: 18px;
+}
+.table-header {
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    font-size: 20px;
+}
+table th{
+    padding: 5px;
+}
+table td{
+    padding: 5px;
+}
+table tr:nth-child(even) {
+    background-color: #001aff25;
+}
+
+.container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+}
+.left{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-logo-container{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--main-color);
+    font-size: 29px;
+    font-weight: bold;
+    text-shadow: #000b6b;
+}
+.login-logo-container img{
+    width: 100%;
+}
+.right{
+    height: 100%;
+    width: 50%;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.form{
+    width: 60%;
+    min-height: 40%;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3%;
+}
+
+.form h3{
+    text-align: center;
+    font-weight: 700;
+    font-size: 25px;
+    color: #000e91
+}
+.login-fields{
+    color: rgba(0, 0, 0, 0.8);
+    width: 80%;
+    height: 25px;
+    margin: 10px 5px;
+    outline: none;
+    font-size: 16px;
+    padding: 6px;
+    height: 35px;
+    border: none;
+    border-bottom: 1px solid var(--main-color);
+}
+
+.books-wrapper{
+    border: 1px solid red;
+    width: 80vw;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: scroll;
+
+
+}
+.lesson-wrap {
+    display: flex;
+    max-width: 100%;
+    width: 100%;
+    max-height: 100%;
+    height: 100%;
+
+    overflow-y: scroll;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid red;
+    border-radius: 5px;
+    box-shadow: 0 0 3px #e2dfdf;
+}
+.lesson-less {
+    flex: 0.3;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    box-shadow: 0 0 3px #e2dfdf;
+}
+.lesson-right {
+    flex: 0.7;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    box-shadow: 0 0 3px #e2dfdf;
+}
+
+.books {
+
+    display: flex;
+    flex-direction: column;
+    max-width: 15%;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 35%;
+    height: 50%;
+    margin-left: 20px;
+    margin: 10px;
+    /* border: 1px solid red; */
+    border-radius: 5px;
+    box-shadow: 0 0 3px #e2dfdf;
+}
+.book-img{
+    width: 100%;
+    height: 80%;
+    object-fit: contain;
+    
+
+}
+
+.login-btn{
+    background-color: var(--main-color);
+    color: white;
+    border: 1px solid var(--main-color);
+    width: 80%;
+    margin: 10px 0;
+    padding: 6px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
+    outline: none;
+    text-decoration: none; 
+    text-align: center;
+}
+.login-error{
+    color: tomato;
+    font-weight: bold;
+}
+
+
+.Dashboard-container{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+}
+.dash-board-sidebar{
+    background: var(--gradient);
+    width: 100%;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+}
+.side-bar-top{
+    color: white;
+    padding: 10px;
+    height: 12%;
+    font-size: 17px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+.logo-div{
+    width: 30%;
+}
+.logo-div img{
+    width: 100%;
+}
+.side-bar-bottom{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 0 50px 10px;
+}
+
+.dash-board-main{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    
+}
+.top-bar{
+    width: 100%;
+    height: 12%;
+    border-bottom: 2px solid rgba(206, 206, 206, 0.679);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 10px;
+    color: white;
+    background: linear-gradient(to left, #000b6b,#004e92 );
+}
+.top-bar h3{
+    font-size: 25px;
+}
+
+.top-bar-profile{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin: 5px 20px;
+    width: 100px;
+}
+.top-bar-profile-pic{
+    width: 100%;
+}
+.top-bar-profile-pic img{
+    width: 100%;
+}
+.top-bar-profile div{
+    background-color: var(--main-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    
+}
+.main-area{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px ;
+    overflow: auto;
+}
+.main-area-cards{
+    background: var(--gradient);
+    height: 150px;
+    width: 300px;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cards-icon{
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.cards-icon img{
+    width: 80%;
+}
+.cards-detail{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%
+}
+.cards-detail p{
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+}
+.cards-detail-count{
+    background-color: white;
+    border-radius: 10px;
+    width: 60%;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    color: var(--main-color);
+    font-size: 30px;
+}
+.nav-link{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 8px 5px;
+    transition: 0.3s;
+    border-color: white;
+}
+.nav-link img{
+    width: 15%;
+    margin-right: 10px;
+}
+.nav-link p{
+    font-size: 17px;
+    color: white;
+}
+.nav-link:hover{
+    border-left: 5px solid white;
+    padding-left: 13px;
+}
+.active { 
+    border-left: 5px solid white !important;
+    padding-left: 13px !important;
+}
+.main{
+    height: 88%;
+    display: flex;
+    flex-direction: column;
+}
+.marks-search-container{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:17px;
+}
+.marks-search-container input{
+    width: 40%;
+    height: 30px;
+    outline: none;
+    border: 1px solid var(--main-color);
+    padding: 5px;
+}
+.marks-search-container button{
+    width: 70px;
+    height: 30px;
+    outline: none;
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+}
+.marks-table{
+    flex:1;
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+}
+.student-container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.student-card{
+    height: 70%;
+    width: 80%;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
+    display: flex;
+    position: relative;
+}
+.student-thumbnail{
+    width: 50%;
+    height: 100%;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.student-thumbnail img{
+    width: 60%;
+}
+.student-details{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding-left: 20px;
+}
+.student-details button{
+    width: 80%;
+    margin: 0 auto;
+    height: 35px;
+    border: 2px solid var(--main-color);
+    border-radius: 4px;
+}
+.student-btn-update{
+    color: white;
+    background: var(--main-color);
+}
+.student-btn-delete{
+    color: var(--main-color);
+    background: white;
+}
+.student-details span{
+    width: 400px;
+    margin: 15px 10px;
+    font-weight: bold;
+}
+.student-update{
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    background: rgba(255, 255, 255, 0.764);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: none;
+}
+.student-input-btns{
+    display:flex;
+    justify-content: center;
+    width: 100%;;
+}
+.student-input-btns button{
+    border: 2px solid var(--main-color);
+    width: 100px;
+    padding: 3px;
+    margin: 3px;
+    border-radius: 4px;
+}
+.student-input-fields{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 100%;
+    align-items: center;
+}
+.student-input-fields input{
+    border: 1px solid var(--main-color);
+    border-radius: 4px;
+    padding: 6px;
+    margin-bottom: 6px;
+    width: 70%;
+}
+.student-delete{
+    position: absolute;
+    background: rgba(255, 255, 255, 0.764);
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    display: none;
+
+}
+.student-delete p{
+    font-weight: bold;
+    font-size: 20px;
+}
+.student-delete button{
+    width: 80%;
+    margin: 10px;
+    padding: 7px;
+    border: 1px solid var(--main-color);
+    border-radius: 4px;
+}
+.academic-year-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.terms{
+    background: var(--gradient);
+    height: 150px;
+    width: 300px;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-size: 23px;
+}
+.settings-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.add-student-modal{
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    display:none;
+}
+.add-teacher-modal{
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    display:none;
+
+}
+.add-subject-modal{
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.4);
+    display:none;
+
+}
+.add-class-modal{
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.4);
+    display:none;
+}
+
+.settings-add-details{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    width: 400px;
+    border: 1px solid var(--main-color);
+    border-radius: 5px;
+    padding: 10px;
+}
+.settings-add-inputs{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    width: 100%;
+    align-items: center;
+}
+.settings-add-inputs input{
+    width: 80%;
+    margin: 5px;
+    padding: 6px;
+    border: 1px solid var(--main-color);
+    border-radius: 4px;
+
+}
+.empty-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    font-size: 25px;
+}
+.empty-div h1{
+    color: var(--main-color);
+}

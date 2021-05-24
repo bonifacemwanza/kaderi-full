@@ -1,0 +1,98 @@
+<main>
+    <div class="contact-container">
+        <div class="contact-card">
+            <div class="contact-banner">
+                <img src="http://kaderidegistiren.com/images/logo.png" alt="Logo">
+            </div>
+            <div class="contact-inputs">
+                <div class="login-page">
+                    <h3>{{LANG Log In}}</h3>
+                    <div class="err-msg"></div>
+                    <form id="login-form" class="login-form" method="post" role="form">
+                        <input type="text"  name="username" id="email" placeholder="{{LANG username}}">
+                        <input type="password" name="password" id="password" placeholder="{{LANG Password}}">
+                        <input type="submit" value="{{LANG Login}}">
+                    </form>
+                    <p onclick="toRegister()">{{LANG Dont have an account}}? <span>{{LANG Register here}}</span></p>
+                </div>
+                <div class="register-page">
+                    <h3>{{LANG Register}}</h3>
+                    <form id="register-form" class="register-form" method="post" role="form">
+                        <input type="text" name="username" id="username" placeholder="{{LANG username}}">
+                        <input type="email" name="email" id="email" placeholder="{{LANG Email}}">
+                        <input type="password" placeholder="{{LANG Password}}">
+                        <input type="password" name="c_password" id="confirm-password"  placeholder="{{LANG Confirm Password}}">
+                        <input type="submit" value="{{LANG Register}}">
+                    </form>
+                    <p onclick="toLogin()">{{LANG Already have an account}}? <span>{{LANG Log in here}}</span></p>
+                </div>
+                
+            </div>
+        </div>
+    </div>    
+</main>
+<script>
+    $(function() {
+   
+        let form = $('form.register-form');
+        form.ajaxForm({
+            url: '{{LINK aj/register}}?hash=' + $('.main_session').val(),
+            dataType:'json',
+            beforeSend: function() {
+                form.find('button').text("{{LANG please_wait}}");
+            },
+            success: function(data) {
+                if (data.status == 200) {
+                    if( data.mode == 'done' ){
+                        window.location = '{{LINK session_login}}?sid='+data.session_id;
+                        return false;
+                    }else if( data.mode == 'wait_activate' ){
+                        $('.register-form').hide();
+                        $('#fill_out_form').hide();
+                    }
+                    $('.register-alert').html($('<div>',{
+                        class: "alert alert-success",
+                        html: data.message
+                    }));
+                    $('.alert-success').fadeIn(300);
+                }
+                else {
+                    $('.err-msg').html($('<div>',{
+                        class: "alert alert-danger",
+                        html: data.message
+                    }));
+                    form.find('button').replaceWith('<button type="submit" class="btn btn-block btn-primary u-btn-primary transition-3d-hover">{{LANG get_started}}</button>');
+                }
+            }
+        });
+
+          let form1 = $('form.login-form');
+        form1.ajaxForm({
+            url: '{{LINK aj/login}}?hash=' + $('.main_session').val(),
+            dataTyep:'json',
+            beforeSend: function() {
+                form1.find('button').text("{{LANG please_wait}}");
+            },
+            success: function(data) {
+                if (data.status == 200) {
+                    if( data.session_id !== '' ){
+                        window.location = '{{LINK session_login}}?sid='+data.session_id;
+                        return false;
+                    }
+                    $('.login-alert').html($('<div>',{
+                        class: "alert alert-success",
+                        html: data.message
+                    }));
+                    $('.alert-success').fadeIn(300);
+                }
+                else {
+                    $('.err-msg').html($('<div>',{
+                        class: "alert alert-danger",
+                        html: data.message
+                    }));
+                    form1.find('button').replaceWith('<button type="submit" class="btn btn-block btn-primary u-btn-primary transition-3d-hover">'+"{{LANG login}}"+'</button>');
+                }
+            }
+        });
+    });
+</script>

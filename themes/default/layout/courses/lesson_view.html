@@ -1,0 +1,93 @@
+
+ <main>
+        <div class="preview-container">
+            <div class="book-preview-container">
+                <div class="preview-header">
+                    <div class="preview-header-details">
+                        <span class="book-title">{{LANG The Fate Changer}}</span>
+                        <span class="chapter-title">Chapter 3</span>
+                    </div>
+                    <div class="audio-and-chapters">
+                        <span onclick="toggleSideBar()" class="chatpers-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </span>
+                        <span onclick="toggleAudio()" class="play-icons">
+                            <i class="fas fa-play-circle"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="preview-body">
+                    <div class="preview-side-bar">
+                        <div class="contents-list">
+                         {{LESSON_LIST}}
+                         </div>
+                    </div>
+                    <div class="preview-main-body">
+                      {{LESSON_BODY}}
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+<script type="text/javascript">
+		// $(document).ready(function(){
+		// 	$("#clear-selection").click(function(){
+		// 	$("input:radio").attr("checked", false);
+		// 	})
+		// });
+		$(function($) {
+				
+		      let check_answer = $('form#quiz_submit');
+
+		      check_answer.ajaxForm({
+		      	url:"{{LINK aj/quiz_process/check}}?hash=" + $('.main_session').val(),
+		      	type:"POST",
+		      	beforeSend: function() {
+		            $('.panel-footer').find('.checkd').text('{{LANG Checking}}');
+		      	},
+		      	success: function(data) {
+		      		if(data.status == 200 ){
+		      			$('.panel-footer').find('.checkd').text('{{LANG Comfirm}}');
+		      			 // check_answer[0].reset();
+		      			 if(data.icon == true){
+                            $(".quiz_alert").html('<daiv class="alert alert-success">'+ data['message'] +'</div>');
+					             $('.alert-success').fadeIn('fast', function() {
+				                    $(this).delay(4000).slideUp(500, function() {
+				                        $(this).remove();
+				                    });
+			                   
+			                });
+		      			 } else if(data.icon == false){
+		      			   $(".quiz_alert").html('<daiv class="alert alert-danger">'+ data['message'] +'</div>');
+					             $('.alert-danger').fadeIn('fast', function() {
+				                    $(this).delay(4000).slideUp(500, function() {
+				                        $(this).remove();
+				                    });
+			                   
+			                });	
+		      			 }
+		                
+
+		      			 if(data.mode == 'next_question'){
+		      				
+			      			$('.question').html(data.quiz_question);
+			      			$('.choice').html(data.choices);
+			      			$('#nxt_book_n').val(data.book_number);
+			      			$('#nxt_less_n').val(data.lesson_number);
+			      			$('#nxt_quiz_n').val(data.quiz_number);
+			      			$('.leadd').html(data.progress);
+			      			$('.quiz_number').html(data.quiz_number);
+			      			$('.progress-bar').css("width", data.progress +"%");
+
+			      		} 
+			      		if (data.mode == 'completed'){
+			      			$('.complete').html(data.final);
+
+			      		}
+		      		}
+
+		      	} 
+		      });
+		});
+</script>

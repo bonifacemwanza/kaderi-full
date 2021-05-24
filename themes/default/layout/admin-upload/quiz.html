@@ -1,0 +1,135 @@
+<div class="col-lg-2"></div>
+<div class="col-lg-8">
+	<form class="job_box mb-3 create_quiz" method="post" id="create_quiz">
+		<div class="create-quiz-alert"></div>
+		<h3 class="sett_title">{{LANG Add QUIZ}}</h3>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<p class="job_crt_title">{{LANG Quiz Language}}</p>
+					<select name="language" class="form-control job_input">
+						<option value="" disabled selected>{{LANG Select Quiz Language}}</option>
+						<option value="turkish">{{LANG Turkish}}</option>
+						<option value="english">{{LANG English}}</option>		 
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<p class="job_crt_title">{{LANG Select Book}}</p>
+					 <select class="form-control job_input" name="book_number" id="bookselect" size="1">
+						<option value="" disabled selected>{{LANG Select Book}}</option>
+						{{BOOK_ARRAY}}
+					 </select>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<p class="job_crt_title">{{LANG Select Lesson}}</p>
+					<select name="lesson_number" class="form-control job_input" id="lessonselect">
+						<option value="" disabled selected>{{LANG Select Lesson}}</option>
+						{{LESSON_ARRAY}}					 
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<p class="job_crt_title">{{LANG Correct Answer Option}}</p>
+					  
+				
+					<input class="form-control job_input"  type="number" name="correct_choice" />
+				   
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<p class="job_crt_title">{{LANG Question number}}</p>
+			<input name="question_number" class="form-control job_input" type="text" placeholder="#" autofocus="">
+		</div>
+		
+		
+	
+		<div class="form-group">
+			<p class="job_crt_title">{{LANG Question}}</p>
+			<textarea id="jb_resp" name="question" class="form-control job_input" placeholder="{{LANG Question}}"></textarea>
+		</div>
+		<div class="form-group">
+			<p class="job_crt_title">{{LANG Question}}</p>
+			<textarea id="jb_respc" name="description" class="form-control job_input" placeholder="{{LANG Description}}"></textarea>
+		</div>
+		<div class="form-group">
+			<p class="job_crt_title">{{LANG Choice}} #1</p>
+			<input name="choice1" class="form-control job_input" type="text"  autofocus="">
+		</div>
+		<div class="form-group">
+			<p class="job_crt_title">{{LANG Choice}} #2</p>
+			<input name="choice2" class="form-control job_input" type="text" autofocus="">
+		</div>
+		<div class="form-group">
+			<p class="job_crt_title">{{LANG Choice}} #3</p>
+			<input name="choice3" class="form-control job_input" type="text" autofocus="">
+		</div>
+		<div class="form-group">
+			<p class="job_crt_title">{{LANG Choice}} #4</p>
+			<input name="choice4" class="form-control job_input" type="text"  autofocus="">
+		</div>
+		<div class="form-group">
+			<p class="job_crt_title">{{LANG Choice}} #5</p>
+			<input name="choice5" class="form-control job_input" type="text" autofocus="">
+		</div>
+		
+		<div class="form-group text-center">
+			<input type="hidden" name="hash_id" value="<?php echo CreateSession();?>">
+        	<input type="hidden" name="user_id" value="<?php echo $kd->user->id?>">
+			<button type="submit" class="btn btn-main sett_btn">{{LANG Create}}</button>
+		</div>
+	</form>
+</div>
+<div class="col-lg-2"></div>
+<script type="text/javascript">
+	  var $optgroups = $('#lessonselect > option');
+  
+  $("#bookselect").on("change",function(){
+    var selectedVal =  $(this).find("option:selected" ).attr('id');
+   
+    
+    $('#lessonselect').html($optgroups.filter('[id="'+selectedVal+'"]'));
+ }); 
+   $(function($) {
+
+	      $('.create_quiz').ajaxForm({
+            url: '{{LINK aj/lesson/add_quiz}}?hash=' + $('.main_session').val(),
+            type:"POST",
+            beforeSend: function() {
+               $('.text-center').find('button').text("{{LANG please_wait}}");
+            },
+            success: function(data) {
+                scrollToTop();
+                if (data.status == 200) {
+                    $(".create-quiz-alert").html('<div class="alert alert-success">'+ data['message'] +'</div>');
+                     $('.alert-success').fadeIn('fast', function() {
+                        $(this).delay(4000).slideUp(500, function() {
+                            $(this).remove();
+                        });
+                       
+                    });
+                   $('.text-center').find('button').replaceWith('<button type="submit" class="btn btn-block btn-primary u-btn-primary transition-3d-hover">{{LANG get_started}}</button>');
+                       setTimeout(function() {window.location = data.url;}, 2000);
+                        
+                        
+                
+                } else if (data['message']) {
+                    $(".create-quiz-alert").html('<div class="alert alert-danger">' + data['message'] + '</div>');
+                }
+
+
+                
+            }
+        });
+	 });
+</script>

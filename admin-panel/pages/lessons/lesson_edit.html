@@ -1,0 +1,109 @@
+<div  class="col-md-8 col-sm-8 col-xs-12">
+    <div class="accordion-widget">
+        <div class="accordion-toggle-2">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseFour">
+                            <h3>{{LANG Edit Book}}<i class="indicator fa fa-plus"></i></h3>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="collapseFour" class="panel-collapse collapse">
+                        <div class="panel-body">
+
+                        {{BOOK_PAGE}}
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseFive">
+                            <h3>{{LANG Edit Lesson}} <i class="indicator fa fa-minus"></i></h3>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="collapseFive" class="panel-collapse collapse in">
+                        <div class="panel-body">
+
+                        {{LESSON_PAGE}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+</div>
+<script>
+       $(function($) {
+
+	     
+                
+        $('.add_lesson').ajaxForm({
+            url: '{{LINK aj/lesson/edit_lesson}}?hash=' + $('.main_session').val(),
+            type:"POST",
+            beforeSend: function() {
+            $('.text-center').find('button').text("{{LANG please_wait}}");
+            },
+            success: function(data) {
+                scrollToTop();
+                if (data.status == 200) {
+                    $(".add_lesson_alert").html('<div class="alert alert-success">'+ data['message'] +'</div>');
+                    $('.alert-success').fadeIn('fast', function() {
+                        $(this).delay(4000).slideUp(500, function() {
+                            $(this).remove();
+                        });
+                    
+                    });
+                $('.text-center').find('button').replaceWith('<button type="submit" class="btn btn-block btn-primary u-btn-primary transition-3d-hover">{{LANG get_started}}</button>');
+                    setTimeout(function() {window.location = data.url;}, 2000);
+                        
+                        
+                
+                } else if (data['message']) {
+                    $(".add_lesson_alert").html('<div class="alert alert-danger">' + data['message'] + '</div>');
+                }
+
+
+                
+            }
+        });
+
+
+        $('.post_book').ajaxForm({
+            url: '{{LINK aj/lesson/edit_book}}?hash=' + $('.main_session').val(),
+            type:"POST",
+            beforeSend: function() {
+            $('.svb').find('button').text("{{LANG please_wait}}");
+            },
+            success: function(data) {
+                scrollToTop();
+                if (data.status == 200) {
+                    $(".post_book_alert").html('<div class="alert alert-success">'+ data['message'] +'</div>');
+                    $('.alert-success').fadeIn('fast', function() {
+                        $(this).delay(4000).slideUp(500, function() {
+                            $(this).remove();
+                        });
+                    
+                    });
+                $('.svb').find('button').replaceWith('<button type="submit" class="btn btn-block btn-primary u-btn-primary transition-3d-hover">{{LANG get_started}}</button>');
+                    setTimeout(function() {window.location = data.url;}, 2000);
+                        
+                        
+                
+                } else if (data['message']) {
+                    $(".post_book_alert").html('<div class="alert alert-danger">' + data['message'] + '</div>');
+                }
+
+
+                
+            }
+        });
+
+        });
+
+</script>

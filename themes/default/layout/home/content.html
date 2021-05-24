@@ -1,0 +1,27 @@
+<main>
+    <div class="home-main">
+        <div class="home-text">
+            <p>{{LANG Do you want to change your fate}} ?</p>
+            <button>{{LANG Yes}}</button>
+        </div>
+    </div>
+</main>
+<script>
+
+    const backgroundImages = [
+        "https://s3.envato.com/files/261798132/EE4I2924%20copy.jpg",
+        "https://cdn2.hubspot.net/hub/4606173/hubfs/Temp%20Images/business-conference-room.jpeg?width=600&name=business-conference-room.jpeg",
+        "https://ak.picdn.net/shutterstock/videos/15414622/thumb/1.jpg",
+        "https://www.mindmeister.com/blog/wp-content/uploads/2016/08/shutterstock_428774194-796x531.jpg"
+    ]
+    var num = 0
+    
+    setInterval(function(){
+        document.querySelector(".home-main").style.background = `url(${backgroundImages[num]})`
+        num++;
+        if(num>=backgroundImages.length){
+            num = 0
+        }
+    
+    }, 6000);
+</script>

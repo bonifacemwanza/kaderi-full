@@ -1,0 +1,69 @@
+<div class="col-lg-2"></div>
+	<div class="col-lg-8">
+		<form class="add_lesson mb-3" method="post" id="create-job">
+			<div class="add_lesson_alert"></div>
+			<h3 class="sett_title">{{LANG Create Lesson}}</h3>
+
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<!-- <p class="job_crt_title">{{LANG Lesson Language}}</p> -->
+						<select name="language" class="form-control job_input">
+							<option value="" disabled selected>{{LANG Select Lesson Language}}</option>
+							<option value="turkish">{{LANG Turkish}}</option>
+							<option value="english">{{LANG English}}</option>		 
+						</select>
+					</div>
+				</div>
+			<div class="col-md-6">
+				<div class="form-group">
+				<!-- 	<p class="job_crt_title">{{LANG Select Book}}</p> -->
+					 <select class="form-control job_input" name="book_id"  id="categorySelect" size="1">
+						<option value="" disabled selected>{{LANG Add lesson to Book}}</option>
+						{{BOOK_ARRAY}}
+					 </select>
+				</div>
+			</div>
+
+				
+				
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+				<!-- 		<p class="job_crt_title">{{LANG Lesson Number}}</p> -->
+						 <input name="lesson_number" class="form-control job_input" type="text" placeholder="{{LANG Lesson Number}}" autofocus="">
+			        </div>
+				</div>
+                <div class="col-md-6">
+					<div class="lesson-media">
+								
+						<button type="button" class="btn btn-main">{{LANG Upload Lesson Audio}}</button>
+						<input type="file"  name="lesson_media" id="resume" class="d-none">
+					</div>
+				</div>
+			</div>
+			
+			
+
+			<div class="form-group">
+				<!-- <p class="job_crt_title">{{LANG Lesson Name}}</p> -->
+				<input name="lesson_name" class="form-control job_input" type="text" placeholder="{{LANG Lesson Name}}" autofocus="">
+			</div>
+			<div class="form-group">
+				<!-- <p class="job_crt_title">{{LANG Lesson Title}}</p> -->
+				<input name="lesson_title" class="form-control job_input" type="text" placeholder="{{LANG Lesson Title}}" autofocus="">
+			</div>		
+			<div class="form-group">
+				<!-- <p class="job_crt_title">{{LANG Lesson Body}}</p> -->
+				<textarea id="jb_resp" name="lesson_body" class="form-control job_input" placeholder="{{LANG Lesson Body}}"></textarea>
+			</div>
+			
+			<div class="form-group text-center">
+				<input type="hidden" name="hash_id" value="<?php echo CreateSession()?>">
+            	<input type="hidden" name="user_id" value="<?php echo $kd->user->id?>">
+				<button type="submit" class="btn btn-main sett_btn">{{LANG Add Lesson}}</button>
+			</div>
+		</form>
+	</div>
+	<div class="col-lg-2"></div>

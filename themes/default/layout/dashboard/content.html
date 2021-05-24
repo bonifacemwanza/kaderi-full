@@ -1,0 +1,36 @@
+<section class="white section">
+<div class="container">
+<div class="row">
+<div id="course-left-sidebar" class="col-md-3">
+<div class="course-image-widget">
+<img src="{{ME avatar}}" alt="" class="img-responsive">
+</div>
+<div class="course-meta">
+<p>{{ME name}}</p>
+<hr>
+<ul class="sections">
+	<li <?php echo ($kd->dashboard_page == 'dashboard') ? 'class="active"': '';?>><a href="{{LINK dashboard/}}{{USER username}}" data-load="?link1=dashboard&page=dashboard&user={{USER username}}">My Profile </a></li>
+	<hr>
+	<li <?php echo ($kd->dashboard_page == 'lessons') ? 'class="active"': '';?>><a href="{{LINK dashboard/lessons/}}{{USER username}}" data-load="?link1=dashboard&page=lessons&user={{USER username}}">My Courses </a></li>
+	<hr>
+	<li <?php echo ($kd->dashboard_page == 'complete_quiz') ? 'class="active"': '';?>><a href="{{LINK dashboard/complete_quiz/}}{{USER username}}" data-load="?link1=dashboard&page=complete_quiz&user={{USER username}}">Completed Quiz </a></li>
+	<hr>
+	<li <?php echo ($kd->dashboard_page == 'reward_points') ? 'class="active"': '';?>><a href="{{LINK dashboard/reward_points/}}{{USER username}}" data-load="?link1=dashboard&page=reward_points&user={{USER username}}">Achievements </a></li>
+	<hr>
+	<li <?php echo ($kd->dashboard_page == 'messages') ? 'class="active"': '';?>><a href="{{LINK dashboard/messages/}}{{USER username}}" data-load="?link1=dashboard&page=messages&user={{USER username}}">Messages</a></li>
+	<hr>
+    <?php if (IsAdmin()) { ?>
+	<li <?php echo ($kd->dashboard_page == 'admin') ? 'class="active"': '';?>><a href="{{LINK admin-uploads/lesson/}}{{USER username}}" data-load="?link1=admin-uploads&page=lesson&user={{USER username}}">Admin</a></li>
+	<li><a href="{{LINK lesson-edit/}}{{USER username}}" data-load="?link1=lesson-edit&user={{USER username}}">{{LANG Edit Lessons}}</a></li>
+	<?php } ?>
+	<hr>
+	<li><a href="{{LINK logout}}">Logout </a></li>
+</ul>
+</div>
+</div>
+<div id="course-content" class="col-md-9">
+{{PROFILE_PAGE}}
+<hr class="invis">
+
+</div>
+</section>

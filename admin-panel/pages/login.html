@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Mwabombeni</title>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="login-logo-container">
+                <img src="assets/SFC1.png" alt="school logo"/>
+                <p>Mwabombeni Combined</p>
+                <p>School</p>
+            </div>
+        </div>
+        <div class="right">
+            <form class="form" action="Index.php" method="POST">
+                <h3>Login</h3>
+                <input type="text" placeholder="username"  class="login-fields" name="username" required=""/>
+                <input type="password" placeholder="password" class="login-fields" name="password" required=""/>
+                <input type="submit" value="Login" class="login-btn" name="login-submit"/>
+                <input type="submit" value="Forgort password" class="login-btn"/>
+                <?php echo $loginError; ?>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta name="keywords" content="">
+	<title>{{CONTAINER_TITLE}}</title>
+	<link rel="stylesheet" type="text/css" href="{{CONFIG theme_url}}/css/style.css">
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://kit.fontawesome.com/f2cac76c1a.js" crossorigin="anonymous"></script>
+	<script src="{{CONFIG theme_url}}/js/jquery-2.1.1.min.js"></script>
+</head>
+<body>
+	<input type="hidden" class="main_session" value="<?php echo CreateMainSession();?>" />
+{{HEADER_LAYOUT}}
+{{CONTAINER_CONTENT}}
+
+<script src="https://cdn.tiny.cloud/1/4a22ohtb98axrzoa2pw5jk5dtbg86okl6m0lepla5z2zekno/tinymce/5/tinymce.min.js"></script>
+
+{{FOOTER_LAYOUT_ALL}}
+{{EXTRA_JS}}
+		<script src="{{CONFIG theme_url}}/js/script.js"></script>
+        <script src="{{CONFIG theme_url}}/js/jquery.form.min.js"></script>
+				
+</body>
+
+</html>

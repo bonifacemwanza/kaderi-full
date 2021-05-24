@@ -1,0 +1,146 @@
+<?php 
+$page = (!empty($_GET['page-id'])) ? $_GET['page-id'] : 1;
+$filter_keyword = (!empty($_GET['query'])) ? Secure($_GET['query']) : '';
+$filter_type    = '';
+$db->pageLimit  = 50;
+
+$book = '';
+$posted_books = $db->get(T_BOOK);
+if(!empty($posted_books)){
+    foreach ($posted_books as $key => $value) {
+         $book .= '<option value="' . $value->id . '" >' . $value->book_title . '</option>';
+    }
+} else {
+    $book .= '<option disabled > No books Added</option>';
+}
+
+if(!empty($_GET['tag'])){
+    $bookdataa = $db->where('id', Secure($_GET['tag']))->get(T_BOOK,1);
+   $gbook_number =  $_GET['tag'];
+    $bookdata_html = '';
+     $b_html = '';
+    if(!empty($bookdataa )){
+	   foreach ($bookdataa as $key => $bookdata) {
+	   	    $kd->book_id = $bookdata->id;
+              
+	      	$bookdata_html .= LoadAdminPage('lessons/book_edit',array(
+				'BOOK_TITLE' =>$bookdata->book_title,
+				'BOOK_DESCRIPTION' => html_entity_decode($bookdata->book_description),
+				'BOOK_ID' => $bookdata->id,
+				'BOOK_UNIQID' => $bookdata->uniqid,
+				'BOOK_NUMBER' => $bookdata->book_number,
+				'BOOK_COVER' => GetMedia($bookdata->book_cover),
+				'BOOK_COVER_PATH' => $bookdata->book_cover,
+				'BOOK_LANGUAGE' => $bookdata->language
+			));
+	   }
+       
+	   if(!empty($kd->book_id )){
+         $bk_lr = LoadAdminLinkSettings("lessons");
+	    $book_lessons = $db->where('book_id', $kd->book_id)->get(T_LESSONS);
+       
+	    $books_html = '';
+	    if(!empty($book_lessons)){
+			foreach ($book_lessons as $key => $book_lesson) {
+                $books_html .= '<li><a href="'. $bk_lr .'?tag='. $gbook_number .'&blesson='.$book_lesson->lesson_uniqid .'">' 
+                    . $book_lesson->lesson_title . '</a></li>';
+             
+			}
+
+			if(isset($_GET['blesson']) && !empty($_GET['blesson'])){
+				$less_unid = Secure($_GET['blesson']);
+				$lessondataa = $db->where('lesson_uniqid', $less_unid)->get(T_LESSONS,1);
+               
+				if(!empty($lessondataa)){
+
+					 foreach ($lessondataa as $key => $bkdat) {
+					   	   
+					      	$b_html .= LoadAdminPage('lesson/lessons_edit',array(
+								'LESSON_TITLE' =>$bkdat->lesson_title,
+								'LESSON_BODY' => html_entity_decode($bkdat->lesson_body),
+								'LESSON_ID' => $bkdat->id,
+								'LESSON_UNIQID' => $bkdat->lesson_uniqid,
+								'LESSON_NAME' => $bkdat->lesson_name,
+								'LESSON_NUMBER' => $bkdat->lesson_number,
+								'BOOK_ID'  => $bkdat->book_id,
+								'LESSON_MEDIA' => GetMedia($bkdat->lesson_media),
+								'LESSON_MEDIA_PATH' => $bkdat->lesson_media,
+								'LESSON_LANGUAGE' => $bkdat->language,
+								'BOOK_ARRAY' =>  $book
+							));
+					   }
+
+				}
+
+			};
+		 }
+       }
+	}
+}
+
+if (!empty($filter_keyword)) {
+    $sql   = " {$filter_type} (username LIKE '%$filter_keyword%' OR email LIKE '%$filter_keyword%' OR id = '$filter_keyword' OR first_name LIKE '%$filter_keyword%' OR last_name LIKE '%$filter_keyword%') ";
+	$users = $db->where($sql)->orderBy('id', 'DESC')->objectbuilder()->paginate(T_USERS, $page);
+} 
+
+else {
+
+	$books = $db->objectbuilder()->orderBy('id', 'DESC')->paginate(T_BOOK, $page);
+}
+
+$get_online_users = $db->where('last_active', time() - 60, '>')->getValue(T_USERS, 'COUNT(*)');
+
+if (($page > $db->totalPages) && !empty($_GET['page-id'])) {
+	header("Location: " . LoadAdminLinkSettings('lessons'));
+	exit();
+}
+?>
+<div class="dash-board-main">
+    <div class="top-bar">
+        <h3>Lessons</h3>
+        <div class="top-bar-profile">
+            <div class="top-bar-profile-pic">
+                <img src="<?php echo LoadAdminLink('assets/profile.png'); ?>" alt="profile" />
+            </div>
+            <p></p>
+        </div>
+    </div>
+    <?php if(!empty($_GET['tag'])){ ?>
+       <div class="lesson-wrap">
+        
+        <div class="left-less">
+        
+            <ul>
+        <?php  echo ($books_html)? $books_html : ''; ?>
+           </ul>
+        </div>
+    
+       <?php echo ($bookdata_html)? $bookdata_html : ''; ?>
+       <?php echo ($b_html)? $b_html : ''; ?>
+    </div> 
+    </div><?php
+    } else {?>
+    <div class="books-wrapper"> 
+        
+        
+    <?php 
+    
+       foreach ($books as $key => $book) {
+         
+            echo LoadAdminPage('lessons/list', array('ID'=> $book->id, 'BOOK_TITLE' => $book->book_title, 'BOOK_COVER' => GetMedia($book->book_cover)));
+
+        }
+    ?>
+    </div>
+    <?php } ?>
+
+    </div>
+    <script>
+        function GetLessons(id){
+           if(id){
+              
+           }
+        }
+        let iwe = '<?php echo $_GET['tag']; ?>';
+        
+    </script>

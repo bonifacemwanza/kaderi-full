@@ -1,0 +1,46 @@
+<div class="course-description">
+	<small>{{LANG Quiz for}} : <span><a href="course-single.html">{{LESSON_TITLE}}</a></span> </small>
+	<small>{{LANG Quiz Status}}: <span>Not Finished</span> </small>
+		<h3 class="course-title">{{LANG Quiz}} - {{LANG Question}} {{QUIZ_NUMBER}}</h3>
+		<div class="quiz-wrapper">
+			<!-- <h4>How to start Photoshop with short keyboard with Mac</h4> -->
+			<div class="quiz_alert"></div>
+			<h4>{{QUIZ_QUESTION}}</h4>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-primary">
+						<form  class="quiz_submit" id="quiz_submit" method="POST">
+							<div class="panel-body">							
+								{{CHOICES}}				
+							</div>
+							<div class="panel-footer">
+								<button type="submit" value="submit" class="btn btn-primary checkd">{{LANG Confirm}}</button>
+								<a href="#" class="btn btn-default" role="button" name="ClearBut" id="clear-selection">{{LANG Clear}}</a>
+								<input type="hidden" name="user_id" value="<?php echo $kd->user->id; ?>">
+								<input type="hidden" name="hash_id" value="<?php echo CreateSession(); ?>">
+								<input type="hidden" name="book_number" value="{{BOOK_NUMBER}}">
+								<input type="hidden" name="lesson_number" value="{{LESSON_NUMBER}}">
+								<input type="hidden" name="quiz_number" value="{{QUIZ_NUMBER}}">
+								<input type="hidden" name="lesson_title" value="{{LESSON_TITLE}}">
+							</div>
+						</form>
+					</div>
+					<hr class="invis">
+					<p class="lead">40% Completed</p>
+					<div class="progress">
+						<div class="progress-bar" role="progressbar" style="width: 40%;">
+							<span class="sr-only">Complete 40%</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<a href="#" class="btn btn-default btn-block">Prev Quiz Question</a>
+				</div>
+				<div class="col-md-6">
+					<a href="#" class="btn btn-default btn-block">Next Quiz Question</a>
+				</div>
+			</div>
+		</div>
+</div>

@@ -1,0 +1,133 @@
+<div class="course-description">
+
+	<div class="jb_usr_tabs jb_sett_usr_tabs">
+		<ul class="list-unstyled mb-0">
+			<li <?php echo ($kd->admin_page == 'book') ? 'class="active"': '';?>>
+				<a href="{{LINK /dashboard/admin/book/}}{{USER username}}" data-load="?link1=dashboard&page=admin&pg=book&user={{USER username}}">{{LANG Add A Book}}</a>
+			</li>
+			<li <?php echo ($kd->admin_page == 'lesson') ? 'class="active"': '';?>>
+				<a href="{{LINK /dashboard/admin/lesson/}}{{USER username}}" data-load="?link1=dashboard&page=admin&pg=lesson&user={{USER username}}">{{LANG Add A Lesson}}</a>
+			</li>
+			<li <?php echo ($kd->admin_page == 'quiz') ? 'class="active"': '';?>>
+				<a href="{{LINK /dashboard/admin/quiz/}}{{USER username}}" data-load="?link1=dashboard&page=admin&pg=quiz&user={{USER username}}">{{LANG Add Quiz}}</a>
+			</li>
+		</ul>
+	</div>
+	
+		<div class="row">
+			{{ADMIN_PAGE}}
+		</div>
+	</div>
+
+
+
+<script>
+	
+   $(function($) {
+
+	     
+         
+		$('#create-job').ajaxForm({
+		    url: '{{LINK aj/jobs/create}}?hash=' + $('.main_session').val(),
+		    type:"POST",
+		    beforeSend: function() {
+		       $('#create-job').find('button').text("{{LANG please_wait}}");
+		    },
+		    success: function(data) {
+		        scrollToTop();
+		        if (data.status == 200) {
+		            $(".create-job-alert").html('<div class="alert alert-success">'+ data['message'] +'</div>');
+		             $('.alert-success').fadeIn('fast', function() {
+                        $(this).delay(4000).slideUp(500, function() {
+                            $(this).remove();
+                        });
+                       
+                    });
+		           $('#create-job').find('button').replaceWith('<button type="submit" class="btn btn-block btn-primary u-btn-primary transition-3d-hover">{{LANG get_started}}</button>');
+		               setTimeout(function() {window.location = data.url;}, 2000);
+                        
+                        
+		        
+		        } else if (data['message']) {
+		            $(".create-job-alert").html('<div class="alert alert-danger">' + data['message'] + '</div>');
+		        }
+
+
+		        
+		    }
+		});
+	});
+   
+    $("#resume").change(function(e) {
+            e.preventDefault();
+            if(this.files[0].size>{{CONFIG max_image_upload_size}}){
+                msgbox("{{LANG Image upload error}}.", "{{LANG img_size_not_greater}} {{CONFIG max_image_upload_size}}Kb");
+                return false;
+            }
+            if(this.files[0].type.indexOf("pdf")==-1){
+                msgbox("{{LANG Image upload error}}.", "{{LANG invalid_type_image}}");
+                return false;
+            }
+            if (this.files && this.files[0]) {
+
+                let bar = $('#img_upload_progress');
+                let percent = $('#img_upload_progress_bar');
+
+                let formData = new FormData();
+                    formData.append("user_id", '{{USER id}}');
+                    formData.append("mode", 'profile');
+                    formData.append("hash_id", '<?php echo CreateSession()?>');
+                    formData.append("resume", $("#resume")[0].files[0], $("#resume")[0].files[0].value);
+
+                    bar.removeClass('hidden');
+                    $.ajax({
+                        xhr: function() {
+                            let xhr = new window.XMLHttpRequest();
+                            xhr.upload.addEventListener("progress", function(evt){
+                                if (evt.lengthComputable) {
+                                    let percentComplete = evt.loaded / evt.total;
+                                    percentComplete = parseInt(percentComplete * 100);
+                                    //status.html( percentComplete + "%");
+                                    percent.width(percentComplete + '%');
+                                    percent.html(percentComplete + '%');
+                                    if (percentComplete === 100) {
+                                        bar.addClass('hidden');
+                                        percent.width('0%');
+                                        percent.html('0%');
+                                    }
+                                }
+                            }, false);
+                            return xhr;
+                        },
+                        url: '{{LINK aj/user/resume}}?hash=' + $('.main_session').val(),
+                        type: "POST",
+                        async: true,
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        timeout: 60000,
+                        dataType: false,
+                        data: formData,
+                        success: function(result) {
+                            if( result.status == 200 ){
+                                if(result.avatar_url !== ''){
+                                    var is_admin = '<?php echo (bool)IsAdmin();?>';
+                                    var is_owner = '<?php echo (bool)$kd->isowner;?>';
+                                    if( is_admin === '1' && is_owner === '1' ) {
+                                        $('.small_avatar_container').attr('src', result.avatar_url);
+                                    }
+                                    if( is_admin === '' && is_owner === '1' ) {
+                                        $('.small_avatar_container').attr('src', result.avatar_url);
+                                    }
+                                    $('#avatar_preview').attr('src', result.avatar_url );
+                                    $('#avatar_preview').parent().attr('href', result.avatar_url );
+                                }
+                            }
+                        }
+                    });
+
+            }
+        });
+
+</script>
