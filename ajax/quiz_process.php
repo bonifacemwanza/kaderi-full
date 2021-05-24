@@ -92,7 +92,7 @@ if($first == 'check'){
 		if(!empty($getChoices)){
 		     foreach ($getChoices as $key => $ck) {
 
-		  $choice_html .= '<div class="radio">
+		  $choice_html .= '<div class="quiz-answer-option">
 					            <label>
 					                <input name="choice" id="optionsRadios2" value="'.$ck->id.'" type="radio">'.$ck->choice.'
 					            </label>

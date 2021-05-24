@@ -48,11 +48,7 @@ if (!empty($kd->lk->lesson_media)){
 if(!empty($getChoices)){
      foreach ($getChoices as $key => $ck) {
 
-             $choice_html .= '<div class="radio">
-        <label>
-        <input name="choice" id="optionsRadios2" value="'.$ck->id.'" type="radio">'.$ck->choice.'
-        </label>
-        </div>'; 
+             $choice_html .= LoadPage('courses/choices', array('ID' => $ck->id, 'CHOICE' => $ck->choice));
     }
 }
 
@@ -108,6 +104,7 @@ $kd->content     = LoadPage('courses/lesson_view', array(
      'LESSON_NUMBER' =>$kd->lk->lesson_number,
      'BOOK_NUMBER' => $kd->gq->book_number,
      'QUIZ_NUMBER' => $kd->gq->quiz_number,
+     'QUIZ_TOTAL' => $q_total,
      'QUIZ_QUESTION' =>htmlspecialchars_decode($kd->gq->question),
      'CHOICES' => $choice_html 
                 

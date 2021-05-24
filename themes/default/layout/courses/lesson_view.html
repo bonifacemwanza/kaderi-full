@@ -24,6 +24,49 @@
                     </div>
                     <div class="preview-main-body">
                       {{LESSON_BODY}}
+	                    <form  class="quiz_submit" id="quiz_submit" method="POST">
+	                       <div class="quiz-item">
+	                            <span class="quiz-number">{{LANG Question}} <span class="quiz_number_count"> {{QUIZ_NUMBER}} </span> / {{QUIZ_TOTAL}}</span>
+	                            
+		                            <span class="quiz-body">
+		                                <span class="quiz-question"><span class="question">{{QUIZ_QUESTION}}</span></span>
+		                                <span class="quiz-answers">
+		                                	<div class="choice">
+		                                		{{CHOICES}}
+		                                	</div>
+		                                    
+		                                    <button type="Submit" class="btn-quiz-submit checkd">Submit</button>
+		                                    <input type="hidden" name="user_id" value="<?php echo $kd->user->id; ?>">
+											<input type="hidden" name="hash_id" value="<?php echo CreateSession(); ?>">
+											<input type="hidden" id="nxt_book_n" name="book_number" value="{{BOOK_NUMBER}}">
+											<input type="hidden" name="lesson_number" value="{{LESSON_NUMBER}}">
+											<input type="hidden" id="nxt_quiz_n" name="quiz_number" value="{{QUIZ_NUMBER}}">
+											<input type="hidden" name="lesson_title" value="{{LESSON_TITLE}}">
+		                                </span>
+		                            </span>
+		                        
+	                        </div>
+	                        <div class="question-nav">
+	                            <button class="quiz-btn">Previous</button>
+	                            
+	                            <button class="quiz-btn">Next</button>
+	                        </div>
+	                        <div class="answer-modal">
+	                            <div class="answer-modal-content">
+	                                <div class="modal-content-header">
+	                                    <span>Correct</span>
+	                                    <i class="fas fa-check"></i>
+	                                </div>
+	                                <div class="modal-content-body">
+	                                    Sint nostrud quis magna cillum occaecat irure nisi est commodo dolor laborum.
+	                                </div>
+	                                <div class="modal-content-btn">
+	                                    <button onclick="closeModal()">Proceed</button>
+
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </form>
                     </div>
                     
                 </div>
@@ -77,7 +120,7 @@
 			      			$('#nxt_less_n').val(data.lesson_number);
 			      			$('#nxt_quiz_n').val(data.quiz_number);
 			      			$('.leadd').html(data.progress);
-			      			$('.quiz_number').html(data.quiz_number);
+			      			$('.quiz_number_count').html(data.quiz_number);
 			      			$('.progress-bar').css("width", data.progress +"%");
 
 			      		} 

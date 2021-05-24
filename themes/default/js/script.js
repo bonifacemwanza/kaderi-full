@@ -171,26 +171,10 @@ function showLesson(){
 
     }
 }
-const child1Div = document.getElementById("Child1")
-const child2Div = document.getElementById("Child2")
-const child3Div = document.getElementById("Child3")
-const child4Div = document.getElementById("Child4")
-
-function quizOptionSelector(show, hide1, hide2, hide3){
+function quizOptionSelector(show){
     show.classList.add("active-answer")
-    hide1.classList.remove("active-answer")
-    hide2.classList.remove("active-answer")
-    hide3.classList.remove("active-answer")
+    
 }
-function Child1(){
-    quizOptionSelector(child1Div,child2Div,child3Div,child4Div)
-}
-function Child2(){
-    quizOptionSelector(child2Div,child1Div,child3Div,child4Div)
-}
-function Child3(){
-    quizOptionSelector(child3Div,child2Div,child1Div,child4Div)
-}
-function Child4(){
-    quizOptionSelector(child4Div,child2Div,child3Div,child1Div)
+function Child1(id){
+    quizOptionSelector(document.getElementById("Child-"+id))
 }
