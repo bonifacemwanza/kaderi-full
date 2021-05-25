@@ -58,11 +58,21 @@ footer p span{
 }
 .nav-items span{
     border-radius: 4px;
-    padding: 5px 10px;
     height: 100%;
     color: var(--TEXTGRAY);
     font-weight: 400;
     margin: 2px;
+}
+a.nav-item img {
+    width: 30px;
+    border-radius: 4px;
+}
+.nav-item {
+    display: flex;
+    align-items: center;
+    width: 70px;
+    padding: 5px 0;
+    justify-content: center;
 }
 .nav-active{
     background: var(--ORANGE);
