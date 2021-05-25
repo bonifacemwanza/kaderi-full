@@ -385,7 +385,11 @@ footer p span{
     overflow-y: auto;
     position: relative;
     margin-right: 16px;
-
+}
+.preview-main-body p {
+    padding: 0 20px;
+    text-align: justify;
+    text-justify: inter-word;
 }
 .to-next-chapter{
     width: 100%;
@@ -714,6 +718,16 @@ footer{
         width: 100%;
         display: flex;
         justify-content: space-evenly;
+    }
+    .preview-main-body {
+        flex: 1;
+        height: 80vh;
+        overflow-y: auto;
+        position: relative;
+        margin-right: 0px;
+    }
+    .preview-main-body p {
+        padding: 0 5px;
     }
 }
 
