@@ -11,7 +11,7 @@ $sql_db_pass = "root";
 $sql_db_name = "kaderi";
 
 // Site URL
-$site_url = "http://localhost:8888/kaderidegistiren/";
+$site_url = "http://localhost:8888/kaderi-full/";
 
 
 
