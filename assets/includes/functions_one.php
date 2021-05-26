@@ -510,9 +510,20 @@ function GetJobPosterUserId($id) {
 
 }
 function GetBookById($id){
-    global $jb,$db;
+    global $kd,$db;
    $query =  $db->where('book_number', $id)->getOne(T_BOOK);
    
  
     return $query;
+}
+function GetBookTotalLessons($id){
+    global $kd, $db;
+    $lessons_count = $db->where('book_id',$id)->get(T_LESSONS);
+    return count($lessons_count);
+}
+function GetBookProgress($user_id, $book_id) {
+    global $kd, $db;
+    $get_progress = $db->where('user_id', $user_id)->where('book_number', $book_id)->get(T_QUIZ_DATA);
+
+    return count($get_progress);
 }

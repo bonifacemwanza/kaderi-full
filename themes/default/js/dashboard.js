@@ -13,3 +13,28 @@ function toggleMenu(){
     }
 }
 
+const buyModal = document.getElementById("buyBook")
+var buyModalOut = false
+function buyBtn(){
+    if(buyModalOut){
+        buyModalOut = false
+        buyModal.style.display = "none"
+    }else{
+        buyModal.style.display = "flex"
+
+        buyModalOut = true
+    }
+}
+
+const overviewModal = document.getElementById("overviewBook")
+var overviewModalOut = false
+function redeemBtn(){
+    if(overviewModalOut){
+        overviewModalOut = false
+        overviewModal.style.display = "none"
+    }else{
+        overviewModal.style.display = "flex"
+
+        overviewModalOut = true
+    }
+}
