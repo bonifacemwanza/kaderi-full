@@ -62,7 +62,6 @@ footer p span{
     color: var(--TEXTGRAY);
     font-weight: 400;
     margin: 2px;
-    width: 100%;
 }
 a.nav-item img {
     width: 30px;
@@ -71,7 +70,7 @@ a.nav-item img {
 .nav-item {
     display: flex;
     align-items: center;
-    width: 70px;
+    width: 70px !important;
     padding: 5px 0;
     justify-content: center;
 }
