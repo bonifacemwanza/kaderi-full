@@ -1,0 +1,185 @@
+<div class="header">
+    <span>{{LANG My Profile}}</span>
+    <i onclick="toggleMenu()" class="fas fa-th"></i>
+</div>
+<div class="main-area">
+    <div class="contact-card">
+        <div class="contact-banner">
+            <img src="http://kaderidegistiren.com/images/logo.png" alt="Logo">
+            <div class="avatar-change">
+                <img class="small_avatar_container" src="{{USER avatar}}" alt="">
+                
+                    <div class="avatar_changed"></div>
+                    <input type="file" id="profile_pic" placeholder="{{LANG Upload Picture}}" value="">
+                 
+            </div>
+        </div>
+        <div class="contact-inputs">
+            <div class="register-page">
+                <div class="userupdate-alert"></div>
+                <h3>{{LANG Edit Profile}}</h3>
+                <form id="user_info_update" method="POST">
+                    <input type="text" placeholder="{{LANG First name}}" name="first_name" value="{{USER first_name}}">
+                    <input type="text" placeholder="{{LANG Last name}}" name="last_name" value="{{USER last_name}}">
+                    <input type="text" placeholder="{{LANG Email}}" name="email" value="{{USER email}}">       
+                    <textarea name="about" placeholder="{{LANG tell us about yourself}}...">{{USER about}}</textarea>
+                    <input id="submit" type="submit" value="{{LANG Save}}">
+                    <input type="hidden" name="user_id" value="{{USER id}}" />
+                    <input type="hidden" name="username" value="{{USER username}}" />
+                </form>
+            </div>
+            <div class="password-page">
+                <div class="password-alert"></div>
+                <h3>{{LANG Password}}</h3>
+                <form id="user_password_update" method="POST">
+                    <input type="password" name="current_password" placeholder="{{LANG Current Password}}" value="">
+                    <input type="password" name="new_password" placeholder="{{LANG New Password}}" value="">
+                    <input type="password"  name="confirm_new_password" placeholder="{{LANG New Password}}" value="">
+                    <input id="pass_submit" type="submit" value="{{LANG Save}}">
+                    <input type="hidden" name="user_id" value="{{USER id}}" />
+                    <input type="hidden" name="username" value="{{USER username}}" />
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<script>
+	
+    $(function($) {
+ 
+        $('#user_password_update').ajaxForm({
+             url: '{{LINK aj/user/change-pass}}?hash=' + $('.main_session').val(),
+             type:"POST",
+             beforeSend: function() {
+                $('#user_password_update').find('#submit').text("{{LANG please_wait}}");
+             },
+             success: function(data) {
+                 scrollToTop();
+                 if (data.status == 200) {
+                     $(".password-alert").html('<div class="alert alert-success">'+ data['message'] +'</div>');
+                      $('.alert-success').fadeIn('fast', function() {
+                         $(this).delay(4000).slideUp(500, function() {
+                             $(this).remove();
+                         });
+                        
+                     });
+                    $('#user_password_update').find('#submit').replaceWith('<input type="submit" value="{{LANG Save}}>"');
+                        setTimeout(function() {window.location = data.url;}, 2000);
+                         
+                         
+                 
+                 } else if (data['message']) {
+                     $(".password-alert").html('<div class="alert alert-danger">' + data['message'] + '</div>');
+                 }
+ 
+ 
+                 
+             }
+         });
+          
+         $('#user_info_update').ajaxForm({
+             url: '{{LINK aj/user/profile}}?hash=' + $('.main_session').val(),
+             type:"POST",
+             beforeSend: function() {
+                $('#user_info_update').find('#submit').text("{{LANG please_wait}}");
+             },
+             success: function(data) {
+                 scrollToTop();
+                 if (data.status == 200) {
+                     $("#userupdate-alert").html('<div class="alert alert-success">'+ data['message'] +'</div>');
+                      $('.alert-success').fadeIn('fast', function() {
+                         $(this).delay(4000).slideUp(500, function() {
+                             $(this).remove();
+                         });
+                        
+                     });
+                    $('#user_info_update').find('#submit').replaceWith('<input type="submit" value="{{LANG Save}}>"');
+                        setTimeout(function() {window.location = data.url;}, 2000);
+                         
+                         
+                 
+                 } else if (data['message']) {
+                     $("#create-job-alert").html('<div class="alert alert-danger">' + data['message'] + '</div>');
+                 }
+ 
+ 
+                 
+             }
+         });
+     });
+    
+     $("#profile_pic").change(function(e) {
+             e.preventDefault();
+             if(this.files[0].size>{{CONFIG max_image_upload_size}}){
+                 alert("{{LANG Image upload error}} {{LANG img_size_not_greater}} {{CONFIG max_image_upload_size}}Kb");
+                 return false;
+             }
+            //  alert(this.files[0].type.indexOf("pdf"));
+             if(this.files[0].type.indexOf("pdf")== 1){
+                 alert("{{LANG Image upload error}} {{LANG invalid_type_image}}");
+                 return false;
+             }
+             if (this.files && this.files[0]) {
+ 
+                 let bar = $('#img_upload_progress');
+                 let percent = $('#img_upload_progress_bar');
+ 
+                 let formData = new FormData();
+                     formData.append("user_id", '{{USER id}}');
+                     formData.append("mode", 'profile');
+                     formData.append("hash_id", '<?php echo CreateSession()?>');
+                     formData.append("avatar", $("#profile_pic")[0].files[0], $("#profile_pic")[0].files[0].value);
+ 
+                     bar.removeClass('hidden');
+                     $.ajax({
+                         xhr: function() {
+                             let xhr = new window.XMLHttpRequest();
+                             xhr.upload.addEventListener("progress", function(evt){
+                                 if (evt.lengthComputable) {
+                                     let percentComplete = evt.loaded / evt.total;
+                                     percentComplete = parseInt(percentComplete * 100);
+                                     //status.html( percentComplete + "%");
+                                     percent.width(percentComplete + '%');
+                                     percent.html(percentComplete + '%');
+                                     if (percentComplete === 100) {
+                                         bar.addClass('hidden');
+                                         percent.width('0%');
+                                         percent.html('0%');
+                                     }
+                                 }
+                             }, false);
+                             return xhr;
+                         },
+                         url: '{{LINK aj/user/avatar}}?hash=' + $('.main_session').val(),
+                         type: "POST",
+                         async: true,
+                         enctype: 'multipart/form-data',
+                         processData: false,
+                         contentType: false,
+                         cache: false,
+                         timeout: 60000,
+                         dataType: false,
+                         data: formData,
+                         success: function(result) {
+                             if( result.status == 200 ){
+                                 if(result.avatar_url !== ''){
+                                     var is_admin = '<?php echo (bool)IsAdmin();?>';
+                                     var is_owner = '<?php echo (bool)$kd->isowner;?>';
+                                     if( is_admin === '1' && is_owner === '1' ) {
+                                         $('.small_avatar_container').attr('src', result.avatar_url);
+                                     }
+                                     if( is_admin === '' && is_owner === '1' ) {
+                                         $('.small_avatar_container').attr('src', result.avatar_url);
+                                     }
+                                     $('#avatar_preview').attr('src', result.avatar_url );
+                                     $('#avatar_preview').parent().attr('href', result.avatar_url );
+                                 }
+                             }
+                         }
+                     });
+ 
+             }
+         });
+ 
+ </script>

@@ -57,7 +57,18 @@ if(!empty($posted_book)){
     $books_a = 'No books added';
 }  
 
-
+$select_header = '';
+$dashboad_header = '';
+$dashboad_header = LoadPage('header/dashboard', array(
+    'BOOKS' => $books_a,
+    'USER_DATA' => (IS_LOGGED)? $user : '',
+    
+));
+$site_header = LoadPage('header/content', array(
+    'BOOKS' => $books_a,
+    
+));
+$select_header = ($kd->page == 'dashboard')? $dashboad_header : $site_header;
 
 $final_content = LoadPage('container', array(
     'CONTAINER_TITLE' => $kd->title,
@@ -66,10 +77,7 @@ $final_content = LoadPage('container', array(
     'CONTAINER_CONTENT' => $kd->content,
     'IS_LOGGED' => (IS_LOGGED == true) ? 'data-logged="true"' : '',
     'MAIN_URL' => $kd->actual_link,
-    'HEADER_LAYOUT' => LoadPage('header/content', array(
-        'BOOKS' => $books_a,
-        
-    )),
+    'HEADER_LAYOUT' => $select_header,
     'FOOTER_LAYOUT_ALL' => $footerall,
     'FOOTER_LAYOUT_LOGIN' => $footerlogin,
    // 'OG_METATAGS' => $og_meta,

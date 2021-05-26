@@ -8,7 +8,10 @@
 	<meta name="author" content="">
 	<meta name="keywords" content="">
 	<title>{{CONTAINER_TITLE}}</title>
+	<?php  if($kd->page == 'dashboard'){ ?> <link rel="stylesheet" type="text/css" href="{{CONFIG theme_url}}/css/dashboard.css">
+	<?php } else {?> 
 	<link rel="stylesheet" type="text/css" href="{{CONFIG theme_url}}/css/style.css">
+	<?php } ?>
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://kit.fontawesome.com/f2cac76c1a.js" crossorigin="anonymous"></script>
 	<script src="{{CONFIG theme_url}}/js/jquery-2.1.1.min.js"></script>
@@ -22,7 +25,11 @@
  -->
 {{FOOTER_LAYOUT_ALL}}
 {{EXTRA_JS}}
+<?php  if($kd->page == 'dashboard'){ ?>
+	    <script src="{{CONFIG theme_url}}/js/dashboard.js"></script> 
+		<?php } else { ?>
 		<script src="{{CONFIG theme_url}}/js/script.js"></script>
+		<?php } ?>
         <script src="{{CONFIG theme_url}}/js/jquery.form.min.js"></script>
 				
 </body>

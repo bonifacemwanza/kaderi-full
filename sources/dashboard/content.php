@@ -34,10 +34,12 @@ foreach ($countries_name as $key => $value) {
 
 $pages_array = [
 	'dashboard',
-    'profile_edit',
+    'profile',
     'messages',
     'lessons',
+    'achievements',
     'complete_quiz',
+    'bookstore',
     'reward_points',
     'admin',
    

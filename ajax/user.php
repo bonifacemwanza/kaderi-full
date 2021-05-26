@@ -162,22 +162,25 @@ if ($first == 'general') {
 
 if ($first == 'profile') {
     $user_data = UserData($_POST['user_id']);
+    $username =  $_POST['username'];
     if (!empty($user_data->id)) {
         if (empty($errors)) {
             $update_data = array(
                 // 'about' => Secure($_POST['about']),
-                'location' => Secure($_POST['location']),
+                'first_name' => Secure($_POST['first_name']),
                 // 'website' => Secure($_POST['website']),
-                'facebook' => Secure($_POST['facebook']),
-                'pinrest' => Secure($_POST['pinrest']),
-                'twitter' => Secure($_POST['twitter']),
-                'linkedln' => Secure($_POST['linkedln'])
+                'last_name' => Secure($_POST['last_name']),
+                'email' => Secure($_POST['email']),
+                'about' => Secure($_POST['about'])
+
+                
             );
             if ($is_owner == true) {
                 $update = $db->where('id', Secure($_POST['user_id']))->update(T_USERS, $update_data);
                 if ($update) {
                     $data = array(
                         'status' => 200,
+                        'url' => UrlLink('dashboard/profile') .'/'. $username,
                         'message' => $success_icon . __('setting_updated')
                     );
                 }
@@ -208,7 +211,7 @@ if ($first == 'change-pass') {
             }
             if (empty($errors)) {
                 $update_data = array(
-                    'password' => sha1($_POST['new_password'])
+                    'password' => password_hash($_POST['new_password'], PASSWORD_DEFAULT)
                 );
                 if ($is_owner == true || IsAdmin()) {
                     $update = $db->where('id', Secure($_POST['user_id']))->update(T_USERS, $update_data);
