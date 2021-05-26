@@ -26,7 +26,7 @@ if (!empty($_POST)) {
      
 
          if (empty($login)) {
-                $errors[] = $error_icon . __('invalid_username_or_password');
+                $errors[] = $error_icon . __('invalid_password');
             } 
 
 

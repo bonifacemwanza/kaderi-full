@@ -72,12 +72,6 @@ section{
     box-shadow: var(--BOXSHADOW);
     
 }
-.active {
-    background-color: var(--ORANGE);
-    color: white;
-    box-shadow: var(--BOXSHADOW);
-    
-}
 .header{
     box-shadow: var(--BOXSHADOW);
     height: 8vh;
@@ -313,9 +307,6 @@ section{
     justify-content: center;
     align-items: center;
 }
-.avatar-change {
-    margin-top: 10px;
-}
 .contact-banner img{
     width: 100%;
 }
@@ -475,6 +466,58 @@ section{
     cursor: pointer;
 }
 
+.dash-container{
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
+    text-align: center;
+}
+.dash-item{
+    width: 200px;
+    height: 100px;
+    background-color: #f1f1f1 ;
+    box-shadow: var(--BOXSHADOW);
+    margin: 10px;
+    display: inline-block;
+    border-radius: 4px;
+}
+.dash-item span{
+    height: 100px;
+    display: flex;
+}
+.dash-left{
+    height: 100px;
+    width: 50%;
+    background-color: var(--ORANGE);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    font-weight: 600;
+    padding: 0 10px;
+    font-size: 13px;
+}
+.dash-left span{
+    display: flex;
+}
+.dash-left i{
+    font-size: 30px;
+}
+.dash-right{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: 600;
+    color:var(--TEXTGRAY);
+    height: 100px;
+
+    
+}
 @media (max-width: 750px){
     .header i{
         display: flex;
