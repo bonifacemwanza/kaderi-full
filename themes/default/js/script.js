@@ -178,3 +178,4 @@ function quizOptionSelector(show){
 function Child1(id){
     quizOptionSelector(document.getElementById("Child-"+id))
 }
+
