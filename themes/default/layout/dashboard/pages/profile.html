@@ -3,22 +3,12 @@
     <i onclick="toggleMenu()" class="fas fa-th"></i>
 </div>
 <div class="main-area">
-    <div class="contact-card">
-        <div class="contact-banner">
-            <img src="http://kaderidegistiren.com/images/logo.png" alt="Logo">
-            <div class="avatar-change">
-                <img class="small_avatar_container" src="{{USER avatar}}" alt="">
-                
-                    <div class="avatar_changed"></div>
-                    <input type="file" id="profile_pic" placeholder="{{LANG Upload Picture}}" value="">
-                 
-            </div>
-        </div>
-        <div class="contact-inputs">
-            <div class="register-page">
+    <div class="edit-profile-container">
+            
+            <div class="user-details" >
                 <div class="userupdate-alert"></div>
                 <h3>{{LANG Edit Profile}}</h3>
-                <form id="user_info_update" method="POST">
+                <form id="user_info_update" class="edit-profile-card" method="POST">
                     <input type="text" placeholder="{{LANG First name}}" name="first_name" value="{{USER first_name}}">
                     <input type="text" placeholder="{{LANG Last name}}" name="last_name" value="{{USER last_name}}">
                     <input type="text" placeholder="{{LANG Email}}" name="email" value="{{USER email}}">       
@@ -28,20 +18,28 @@
                     <input type="hidden" name="username" value="{{USER username}}" />
                 </form>
             </div>
-            <div class="password-page">
-                <div class="password-alert"></div>
-                <h3>{{LANG Password}}</h3>
-                <form id="user_password_update" method="POST">
-                    <input type="password" name="current_password" placeholder="{{LANG Current Password}}" value="">
-                    <input type="password" name="new_password" placeholder="{{LANG New Password}}" value="">
-                    <input type="password"  name="confirm_new_password" placeholder="{{LANG New Password}}" value="">
-                    <input id="pass_submit" type="submit" value="{{LANG Save}}">
-                    <input type="hidden" name="user_id" value="{{USER id}}" />
-                    <input type="hidden" name="username" value="{{USER username}}" />
-                </form>
+
+            <div class="avatar-change edit-profile-card">
+                <h3 style="display: block;">{{LANG Edit Picture}}</h3>
+                    <img class="small_avatar_container" src="{{USER avatar}}" alt="">
+                    <div class="avatar_changed"></div>
+                    <input type="file" id="profile_pic" placeholder="{{LANG Upload Picture}}" value="">
+                           
             </div>
-            
-        </div>
+
+            <div  class="user-details">
+                <div class="password-alert"></div>
+                    <h3>{{LANG Password}}</h3>
+                    <form id="user_password_update" method="POST" class="edit-profile-card">
+                        <input type="password" name="current_password" placeholder="{{LANG Current Password}}" value="">
+                        <input type="password" name="new_password" placeholder="{{LANG New Password}}" value="">
+                        <input type="password"  name="confirm_new_password" placeholder="{{LANG New Password}}" value="">
+                        <input id="pass_submit" type="submit" value="{{LANG Save}}">
+                        <input type="hidden" name="user_id" value="{{USER id}}" />
+                        <input type="hidden" name="username" value="{{USER username}}" />
+                    </form>
+                </div>
+            </div>
     </div>
 </div>
 <script>
