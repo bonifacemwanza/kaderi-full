@@ -657,6 +657,21 @@ footer{
 .quiz-hider{
     display: none;
 }
+.to-lesson{
+
+    display:none;
+}
+.to-lesson button{
+    background-color: var(--ORANGE);
+    color: white;
+    padding: 10px 15px;
+    margin: 10px;
+    border: none;
+}
+.to-lesson button:hover{
+    background-color: orange;
+    cursor: pointer;
+}
 @media (max-width: 750px){
     .toggle-nav{
         display: flex;
