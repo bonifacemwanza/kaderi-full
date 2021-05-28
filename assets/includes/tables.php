@@ -15,3 +15,4 @@ define('T_QUESTIONSTR', 'questions_tr');
 define('T_CHOICE', 'choice');
 define('T_USER_LESSONS', 'user_lessons');
 define('T_QUIZ_DATA', 'quiz_data');
+define('T_BOOK_STORE', 'book_store');

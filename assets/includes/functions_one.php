@@ -527,3 +527,310 @@ function GetBookProgress($user_id, $book_id) {
 
     return count($get_progress);
 }
+function GetMessagesUserList($data = array('offset' => 0 ,'limit' => 20 , 'api' => false)) {
+    global $kd, $db;
+    if (IS_LOGGED == false) {
+        return false;
+    }
+
+    if($data['api'] === true) {
+        $limit = (int)$data['limit'];
+        $offset = (int)$data['offset'];
+    }
+
+    $db->where("user_one", $kd->user->id);
+
+    if (isset($data['keyword'])) {
+        $keyword = Secure($data['keyword']);
+        $db->where("user_two IN (SELECT id FROM users WHERE username LIKE '%$keyword%' OR `first_name` LIKE '%$keyword%')");
+    }
+
+    if (isset($data['offset']) && $data['api'] === true) {
+        $db->where("id > " . $offset);
+    }
+
+    $users = $db->orderBy('time', 'DESC')->get(T_CHATS, $limit);
+
+    $return_methods = array('obj', 'html');
+
+    $return_method = 'obj';
+    if (!empty($data['return_method'])) {
+        if (in_array($data['return_method'], $return_methods)) {
+            $return_method = $data['return_method'];
+        }
+    }
+
+    $users_html = '';
+    $data_array = array();
+    foreach ($users as $key => $user) {
+        $user = UserData($user->user_two);
+        if (!empty($user)) {
+            $get_last_message = $db->where("((from_id = {$kd->user->id} AND to_id = $user->id AND `from_deleted` = '0') OR (from_id = $user->id AND to_id = {$kd->user->id} AND `to_deleted` = '0'))")->orderBy('id', 'DESC')->getOne(T_MESSAGES);
+            $get_count_seen = $db->where("to_id = {$kd->user->id} AND from_id = $user->id AND `from_deleted` = '0' AND seen = 0")->orderBy('id', 'DESC')->getValue(T_MESSAGES, 'COUNT(*)');
+            if ($return_method == 'html') {
+                $users_html .= LoadPage("messages/ajax/user-list", array(
+                    'ID' => $user->id,
+                    'AVATAR' => $user->avatar,
+                    'NAME' => $user->name,
+                    'LAST_MESSAGE' => (!empty($get_last_message->text)) ? markUp( strip_tags($get_last_message->text) ) : '',
+                    'COUNT' => (!empty($get_count_seen)) ? $get_count_seen : '',
+                    'USERNAME' => $user->username
+                ));
+            } else {
+                if ($data['api'] === false) {
+                    $data_array[$key]['user'] = $user;
+                    $data_array[$key]['get_count_seen'] = $get_count_seen;
+                    $data_array[$key]['get_last_message'] = $get_last_message;
+                }else{
+                    $data_array[] = array(
+                        'user' => $user,
+                        'get_count_seen' => $get_count_seen,
+                        'get_last_message' => $get_last_message
+                    );
+                }
+            }
+        }
+    }
+    $users_obj = (!empty($data_array)) ? ToObject($data_array) : array();
+    return (!empty($users_html)) ? $users_html : $users_obj;
+}
+
+function GetMessageData($id = 0) {
+    global $kd, $db;
+    if (empty($id) || !IS_LOGGED) {
+        return false;
+    }
+    $fetched_data = $db->where('id', Secure($id))->getOne(T_MESSAGES);
+    if (!empty($fetched_data)) {
+        $fetched_data->text = Markup($fetched_data->text);
+        return $fetched_data;
+    }
+    return false;
+}
+function DeleteMessage($message_id, $media = '', $deleter_id = 0) {
+    global $kd, $sqlConnect,$db;
+    if (empty($deleter_id)) {
+        if (IS_LOGGED == false) {
+            return false;
+        }
+    }
+    if (empty($message_id) || !is_numeric($message_id) || $message_id < 0) {
+        return false;
+    }
+    $user_id = $deleter_id;
+    if (empty($user_id) && IS_LOGGED == true) {
+        $user_id = $kd->user->id;
+    }
+    $message_id    = Secure($message_id);
+    $query_one     = "SELECT * FROM " . T_MESSAGES . " WHERE `id` = {$message_id}";
+
+    $sql_query_one = mysqli_query($sqlConnect, $query_one);
+
+    if (mysqli_num_rows($sql_query_one) == 1) {
+        $sql_fetch_one = mysqli_fetch_assoc($sql_query_one);
+           if ($sql_fetch_one['to_id'] != $user_id && $sql_fetch_one['from_id'] != $user_id) {
+            return false;
+        }
+            $query = mysqli_query($sqlConnect, "DELETE FROM " . T_MESSAGES . " WHERE `id` = {$message_id}");
+          
+            if ($query) {
+                if (isset($sql_fetch_one['media']) AND !empty($sql_fetch_one['media'])) {
+                    @unlink($sql_fetch_one['media']);
+                    $delete_from_s3 = DeleteFromToS3($sql_fetch_one['media']);
+                }
+                return true;
+            } else {
+                return false;
+            }
+       
+        return false;
+    }
+}
+function GetMessages($id, $data = array(),$limit = 50) {
+    global $kd, $db;
+    if (IS_LOGGED == false) {
+        return false;
+    }
+
+    $chat_id = Secure($id);
+
+    if (!empty($data['chat_user'])) {
+        $chat_user = $data['chat_user'];
+    } else {
+        $chat_user = UserData($chat_id);
+    }
+
+
+    $where = "((`from_id` = {$chat_id} AND `to_id` = {$kd->user->id} AND `to_deleted` = '0') OR (`from_id` = {$kd->user->id} AND `to_id` = {$chat_id} AND `from_deleted` = '0'))";
+
+    // count messages
+    $db->where($where);
+    if (!empty($data['last_id'])) {
+        $data['last_id'] = Secure($data['last_id']);
+        $db->where('id', $data['last_id'], '>');
+    }
+
+    if (!empty($data['first_id'])) {
+        $data['first_id'] = Secure($data['first_id']);
+        $db->where('id', $data['first_id'], '<');
+    }
+
+    $count_user_messages = $db->getValue(T_MESSAGES, "count(*)");
+    $count_user_messages = $count_user_messages - $limit;
+    if ($count_user_messages < 1) {
+        $count_user_messages = 0;
+    }
+
+    // get messages
+    $db->where($where);
+    if (!empty($data['last_id'])) {
+        $db->where('id', $data['last_id'], '>');
+    }
+
+    if (!empty($data['first_id'])) {
+        $db->where('id', $data['first_id'], '<');
+    }
+
+    $get_user_messages = $db->orderBy('id', 'ASC')->get(T_MESSAGES, array($count_user_messages, $limit));
+
+    $messages_html = '';
+
+    $return_methods = array('obj', 'html');
+
+    $return_method = 'obj';
+    if (!empty($data['return_method'])) {
+        if (in_array($data['return_method'], $return_methods)) {
+            $return_method = $data['return_method'];
+        }
+    }
+ 
+    $update_seen = array();
+   
+      
+    $last_file_view = '';
+          
+    foreach ($get_user_messages as $key => $message) {
+         
+
+    
+
+           $filename    = (!empty( $message->media)) ? GetMedia( $message->media) : '';
+           $fname       = Secure($message->mediaFileName);
+     
+         if (isset($filename) && !empty($filename)) {
+            $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
+            $file           = '';
+            $media_file     = '';
+            $icon_size                  = 'fa-2x';
+            $start_link     = "<a href=" . $filename . ">";
+            $end_link       = '</a>';
+            $file_extension = strtolower($file_extension);
+          
+
+            if ($file_extension == 'jpg' || $file_extension == 'jpeg' || $file_extension == 'png' || $file_extension == 'gif') {
+                $media_file .= "<a href='" . $filename  . "' target='_blank'><img src='" .$filename . "' alt='image' class='image-file pointer'></a>";
+                
+            }
+            if ($file_extension == 'pdf') {
+                $file .= '<i class="fa ' . $icon_size . ' fa-file-pdf-o"></i> ' . $fname; 
+            }
+            if ($file_extension == 'txt') {
+                $file .= '<i class="fa ' . $icon_size . ' fa-file-text-o"></i> ' . $fname; 
+            }
+            if ($file_extension == 'zip' || $file_extension == 'rar' || $file_extension == 'tar') {
+                $file .= '<i class="fa ' . $icon_size . ' fa-file-archive-o"></i> ' . $fname; 
+            }
+            if ($file_extension == 'doc' || $file_extension == 'docx') {
+                $file .= '<i class="fa ' . $icon_size . ' fa-file-word-o"></i> ' . $fname;
+            }
+            if ($file_extension == 'mp3' || $file_extension == 'wav') {
+               
+                    $media_file .= LoadPage('messages/ajax/audio',array('MEDIASOUND' =>$filename));
+                
+            }
+            if (empty($file)) {
+                $file .= '<i class="fa ' . $icon_size . ' fa-file-o"></i> ' . $fname;
+            } 
+            if ($file_extension == 'mp4' || $file_extension == 'mkv' || $file_extension == 'avi' || $file_extension == 'webm' || $file_extension == 'mov') {
+                $media_file .= LoadPage('messages/ajax/video',array('MEDIAVIDEO' =>$filename));;
+            }  
+  
+                     if (isset($media_file) && !empty($media_file)) {
+                $last_file_view = $media_file;
+            } else {
+                $last_file_view = $start_link . $file . $end_link;
+            }
+           //return (!empty($last_file_view)) ? $last_file_view ;
+        }else{
+             $last_file_view = '';
+        }
+       
+        
+
+                  
+     if ($return_method == 'html') {
+                $message_type = 'incoming';
+                $messgefromsender = 'notAplicable';
+                if ($message->from_id == $kd->user->id) {
+                    $message_type = 'outgoing';
+                   
+
+                }
+               
+                $messages_html .= LoadPage("messages/ajax/$message_type", array(
+                'ID' => $message->id,
+                'AVATAR' => $chat_user->avatar,
+                'NAME' => $chat_user->name,
+                'TIME' =>  Time_Elapsed_String($message->time),
+                'TEXT' => Markup($message->text),
+                'MEDIA'=> (!empty($last_file_view)) ? $last_file_view : ''
+                
+              
+                
+                
+
+            ));
+
+        }
+        if ($message->seen == 0 && $message->to_id == $kd->user->id) {
+            $update_seen[] = $message->id;
+        }
+    }
+
+    if (!empty($update_seen)) {
+        $update_seen = implode(',', $update_seen);
+        $update_seen = $db->where("id IN ($update_seen)")->update(T_MESSAGES, array('seen' => time()));
+    }
+
+    return (!empty($messages_html)) ? $messages_html : $get_user_messages;
+}
+function SeenMessage($message_id) {
+    global $sqlConnect,$db,$kd;
+    $message_id   = Secure($message_id);
+    $query        = mysqli_query($sqlConnect, " SELECT `seen` FROM " . T_MESSAGES . " WHERE `id` = {$message_id}");
+    $fetched_data = mysqli_fetch_assoc($query);
+    if ($fetched_data['seen'] > 0) {
+        $data         = array();
+        $data['time'] = date('c', $fetched_data['seen']);
+        $data['seen'] = Time_Elapsed_String($fetched_data['seen']);
+        return $data;
+    } else {
+        return false;
+    }
+}
+function GetMessageButton($username = '') {
+    global $kd, $db, $lang;
+    if (empty($username)) {
+        return false;
+    }
+    if (IS_LOGGED == false) {
+        return false;
+    }
+
+    $button_text  = $lang->message;
+
+    return LoadPage('buttons/message', array(
+        'TEXT' => $button_text,
+        'USERNAME' => $username,
+    ));
+}

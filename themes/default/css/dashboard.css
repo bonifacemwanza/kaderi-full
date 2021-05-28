@@ -244,11 +244,20 @@ section{
 .card-footer{
     display: flex;
     flex-direction: column;
+    min-height: 35px;
 }
 .card-title{
     font-weight: 700;
-    font-size: 19px;
+    font-size: 15px;
     color: var(--TEXTGRAY);
+}
+.card-title a{
+    text-decoration: none;
+    color: unset;
+}
+.card-title a:hover{
+    color: var(--ORANGE);
+    cursor: pointer;
 }
 .card-options{
     font-weight: 500;

@@ -62,7 +62,6 @@ footer p span{
     color: var(--TEXTGRAY);
     font-weight: 400;
     margin: 2px;
-    width: 100%;
 }
 a.nav-item img {
     width: 30px;
@@ -71,7 +70,7 @@ a.nav-item img {
 .nav-item {
     display: flex;
     align-items: center;
-    width: 70px;
+    width: 70px !important;
     padding: 5px 0;
     justify-content: center;
 }
@@ -633,7 +632,31 @@ footer{
     border: none;
     border-radius: 4px;
 }
-
+.the-lesson-body{
+    padding: 5px;
+}
+.to-quiz{
+    width: 100%;
+    text-align: center;
+    margin: 10px;
+}
+.to-quiz button{
+    width: 90%;
+    max-width: 500px;
+    padding: 10px;
+    color: white;
+    background-color: #00AEB7;
+    font-size: 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.to-quiz button:hover{
+    background-color: #0b757b;
+}
+.quiz-hider{
+    display: none;
+}
 @media (max-width: 750px){
     .toggle-nav{
         display: flex;

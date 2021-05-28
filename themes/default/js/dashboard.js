@@ -28,7 +28,7 @@ function buyBtn(){
 
 const overviewModal = document.getElementById("overviewBook")
 var overviewModalOut = false
-function redeemBtn(){
+function redeemBtn(price,points){
     if(overviewModalOut){
         overviewModalOut = false
         overviewModal.style.display = "none"
