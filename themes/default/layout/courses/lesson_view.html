@@ -29,6 +29,9 @@
 					<div class="to-quiz">
 						<Button onclick="toQuiz()">Test your Knowledge</Button>
 					</div>
+					<div class="to-lesson">
+						<Button onclick="toLesson()">Show lesson</Button>
+					</div>
 					<form  class="quiz_submit quiz-hider" id="quiz_submit" method="POST">
 					   	<div class="quiz-item">
 							<span class="quiz-number">{{LANG Question}} <span class="quiz_number_count"> {{QUIZ_NUMBER}} </span> / {{QUIZ_TOTAL}}</span>
@@ -84,15 +87,28 @@
 	// 	$("input:radio").attr("checked", false);
 	// 	})
 	// });
-	const quizHider  = document.querySelector(".quiz-hider")
-	const lessonBody = document.querySelector(".the-lesson-body")
-	const toQuizBtn     = document.querySelector(".to-quiz")
+	const quizHider   = document.querySelector(".quiz-hider")
+	const lessonBody  = document.querySelector(".the-lesson-body")
+	const toQuizBtn   = document.querySelector(".to-quiz")
+	const toLessonBtn = document.querySelector(".to-lesson")
 
 	function toQuiz(){
 		quizHider.style.display = "block"
 		lessonBody.style.display = "none"
 		toQuizBtn.style.display = "none"
+		
+
+		toLessonBtn.style.display = "block"
 	}
+	function toLesson(){
+		lessonBody.style.display = "block"
+		quizHider.style.display = "none"
+		toLessonBtn.style.display = "none"
+		toQuizBtn.style.display = "block"
+
+
+	}
+
 	$(function($) {
 			
 		  let check_answer = $('form#quiz_submit');
