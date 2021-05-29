@@ -22,10 +22,12 @@
             </div>
         </div>
         <div class="reply-box">
-            <textarea></textarea>
-            <button>
-                send
-            </button>
+            <form method="POST" id="new-message-form" enctype="multipart/form-data">
+                <textarea name="new-message" id="new-message" ></textarea>
+                <button>
+                    {{LANG Send}}
+                </button>
+            </form>
         </div>
     </div>
 </div>

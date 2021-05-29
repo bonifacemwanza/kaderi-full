@@ -32,7 +32,7 @@ if($first == 'check'){
     $get_choice = $db->where('lesson_number',$lesson_number)->where('quiz_number',$quiz_number)->where('book_number', $book_number)->where('is_correct','1')->where('language',$_SESSION['lang'])->getOne(T_CHOICE);
     $correct_choice = $get_choice->id;
     $ChoiceFull = $get_choice->choice;
-    
+     
 
 
     if($correct_choice == $selected_choice){
@@ -52,7 +52,30 @@ if($first == 'check'){
     $quiz_review = '';
 	$progress_percentage = '';
 	$progress_percentage = $quiz_number / $q_total * 100;
-
+	$rounded = round($progress_percentage, 2);
+	
+     $quiz_data_exist = $db->where('user_id', $kd->user->id)->where('book_number', $book_number)->where('lesson_number',$lesson_number)->getValue(T_QUIZ_DATA, "count(*)");
+	
+	 if($quiz_data_exist > 0){
+		$data = array(
+			
+			"last_question_number" => intval($quiz_number),
+			"status" => ''.$rounded .'%',
+			"score" => intval($_SESSION['score'])
+		);
+		$updata_quiz_status = $db->where('user_id', $kd->user->id)->where('book_number', $book_number)->where('lesson_number',$lesson_number)->update(T_QUIZ_DATA, $data);
+		// var_dump($data);
+		// var_dump($updata_quiz_status);
+	 } else {
+		 $data = array(
+             "user_id" => $kd->user->id,
+			 "book_number" => intval($book_number),
+			 "lesson_number" => intval($lesson_number),
+			 "last_question_number" => $quiz_number,
+			 "score" => intval($_SESSION['score'])
+		 );
+		$quiz_data_exists = $db->insert(T_QUIZ_DATA, $data);
+	 }
 
 
 	if($quiz_number == $q_total){
@@ -63,6 +86,7 @@ if($first == 'check'){
 			}
 		}
 		$save_point = $db->where('id', $kd->user->id)->update(T_USERS,array('points'=>$db->inc(Secure($_SESSION['score']))));
+
 	    if($save_point){
 			$data = array(
 	          'status' => 200,
