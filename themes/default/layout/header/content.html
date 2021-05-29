@@ -7,7 +7,6 @@
             <a onclick="nav2()" href="{{LINK about}}" data-load="?link1=about"><span class="nav2 nav-item ">{{LANG About}}</span></a>
             <a onclick="nav3()" href="{{LINK lesson}}" data-load="?link1=lesson"><span class="nav3 nav-item ">{{LANG Lessons}}</span></a>
             <a onclick="nav4()" href="{{LINK contact}}" data-load="?link1=contact"> <span class="nav4 nav-item">{{LANG Contact}}</span></a>
-            <a onclick="nav5()" href="{{LINK register}}" data-load="?link1=register"><span class="nav5 nav-item">{{LANG Register}}</span></a>
             <?php if($_SESSION['lang'] == 'turkish'){ ?>
                   
                 <a class="nav-item" href="?lang=english" rel="nofollow"><img class="u-list__link-icon mr-2" src="{{CONFIG theme_url}}/images/flags/english.svg" alt=""></a>
@@ -16,6 +15,26 @@
 
  
              <?php } ?>
+            <!-- <a onclick="nav5()" href="{{LINK register}}" data-load="?link1=register"><span class="nav5 nav-item">{{LANG Register}}</span></a> -->
+            <span class="login-nav" onclick="showProfileDiv()" data-load="?link1=register">
+                <div class="photo-div" style="background-image: url('https://www.happitime.co.uk/images/uploads/profile.jpg');">
+                </div>
+                
+                <div class="profile-dropdown">
+                    <?php if(!IS_LOGGED){ ?>
+                        <div class="logged-in-div">
+                            <span class="nav5 nav-item">Dashboard</span>
+                            <span class="nav5 nav-item">Logout</span>
+                        </div>
+                    <?php } else { ?> 
+                        <div class="logged-out-div">
+                            <span class="nav5 nav-item">Login</span>
+                            <span class="nav5 nav-item">{{LANG Register}}</span>
+                        </div>
+                    <?php } ?>
+                </div>
+                    
+            </span>
         </div>
         <div onclick="toggleNav()" class="toggle-nav">
             <i class="fas fa-bars"></i>
@@ -57,4 +76,19 @@
             }
         });
     });
+
+    var profileDiv = false
+    function showProfileDiv(){
+        var width = window.innerWidth;
+        if(width <= 750){
+            if(!profileDiv){
+                document.querySelector(".profile-dropdown").style.display="block";
+                profileDiv = true
+            }
+            else{
+                document.querySelector(".profile-dropdown").style.display="none";
+                profileDiv = false
+            }
+        }
+    }
 </script>
