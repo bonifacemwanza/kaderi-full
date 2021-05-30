@@ -70,7 +70,7 @@ a.nav-item img {
 .nav-item{
     display: flex;
     align-items: center;
-    width: 70px !important;
+    min-width: 70px !important;
     padding: 5px 0;
     justify-content: center;
 }
