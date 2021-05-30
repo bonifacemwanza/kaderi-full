@@ -67,12 +67,27 @@ a.nav-item img {
     width: 30px;
     border-radius: 4px;
 }
-.nav-item {
+.nav-item{
     display: flex;
     align-items: center;
     width: 70px !important;
     padding: 5px 0;
     justify-content: center;
+}
+.login-nav{
+    position: relative;
+}
+.photo-div{
+    border: 2px solid white;
+    width: 40px;
+    height: 40px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    box-shadow: var(--BOXSHADOW);
+}
+.photo-div img{
+    width: 100%;
 }
 .nav-active{
     background: var(--ORANGE);
@@ -81,6 +96,20 @@ a.nav-item img {
     box-shadow: var(--BOXSHADOW);
     cursor: pointer;
 }
+.profile-dropdown{
+    position: absolute;
+    background: white;
+    right: 0;
+    padding: 0 5px;
+    font-size: 13px;
+    display: none;
+}
+.login-nav:hover .profile-dropdown{
+   display: block;
+}
+
+
+
 .nav-item:hover{
     background: var(--ORANGE);
     color: white !important;
@@ -684,7 +713,7 @@ footer{
         flex-direction: column;
         width: 100px;
         background-color: rgba(255, 255, 255, 0.9);
-        height: 270px;
+        height: 280px;
         padding: 0;
         box-shadow: var(--BOXSHADOW);
         border: 1px solid var(--ORANGE);
@@ -695,6 +724,11 @@ footer{
     .nav-items a{
         width: 100%;
         margin: 5px 0;
+    }
+    .profile-dropdown{
+        top: -14px;
+        right: 40px;
+        border-left: 1px solid var(--ORANGE);
     }
     .about-container{
         padding: 10px;
