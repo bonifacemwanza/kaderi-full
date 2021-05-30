@@ -3,23 +3,12 @@
     <i onclick="toggleMenu()" class="fas fa-th"></i>
 </div>
 <div class="main-area">
+    <div class="chat_llist">
+        {{SIDEBAR}}
+    </div>
     <div class="messages-container">
-        <div class="chat-box">
-            <div class="chat-bubble left-bubble">
-                <span>Officia velit esse laborum labore laborum duis qui.</span>
-            </div>
-            <div class="chat-bubble right-bubble">
-                <span>Qui consequat do culpa mollit id culpa cupidatat ea proident aute incididunt.</span>
-            </div>
-            <div class="chat-bubble left-bubble">
-                <span>Culpa anim eiusmod duis mollit fugiat fugiat amet nulla officia nulla.</span>
-            </div>
-            <div class="chat-bubble right-bubble">
-                <span>Esse laboris nisi pariatur exercitation nostrud consequat esse ad mollit sit et et enim est.</span>
-            </div>
-            <div class="chat-bubble right-bubble">
-                <span>Qui consequat do culpa mollit id culpa cupidatat ea proident aute incididunt.</span>
-            </div>
+        <div class="chat-box user-messages">
+            {{HTML}}
         </div>
         <div class="reply-box">
             <form method="POST" id="new-message-form" enctype="multipart/form-data">
@@ -31,3 +20,204 @@
         </div>
     </div>
 </div>
+<script>
+	<?php if (empty($kd->chat_id)) { ?>
+		$('#new-message').attr('disabled', true);	
+		$('#form#new-message-form').attr('disabled', true);
+	<?php }?>
+
+$('.user-list').on('click',function (){
+    $('.mobilerightpane').fadeIn(100);
+});
+$('.mobilemsgclose').on('click',function (){
+    $('.mobilerightpane').fadeOut(100);
+});
+
+var messagesInterval =  3000;
+function fetchMessages() {
+    $.post('{{LINK aj/messages/fetch}}', {id: $('#user-id').val(), last_id: $('.message:last').attr('data-id')}, function(data, textStatus, xhr) {
+        if (data.status == 200) {
+            if (data.message.length > 0) {
+                $('.messages').append(data.message);
+                 $('.user-messages').scrollTop($('.user-messages')[0].scrollHeight);
+            }  
+             if ($('#search-list').val() == 0) {
+                $('.messages-sidebar .list-unstyled').html(data.users);
+            }
+        }
+        setTimeout(function () {
+            fetchMessages();
+        }, messagesInterval);
+    });
+}
+$(document).on('click', '.messages-sidebar a', function(event) {
+    clearTimeout(messagesInterval);
+    /* Act on the event */
+});
+$(document).on('click', '#load-more-messages', function(event) {
+  event.preventDefault();
+  $('#load-more-messages i').removeClass('fa-angle-up');
+  $('#load-more-messages i').addClass('fa-spinner fa-spin');
+  $.post('{{LINK aj/messages/fetch}}', {id: $('#user-id').val(), first_id: $('.message:first').attr('data-id')}, function(data, textStatus, xhr) {
+        $('#load-more-messages i').removeClass('fa-spinner fa-spin');
+        $('#load-more-messages i').addClass('fa-angle-up');
+        if (data.status == 200) {
+            if (data.message.length > 0) {
+                $('.messages').prepend(data.message);
+            } else {
+                $('#load-more-messages').animate({
+                    top: "-50",
+                }, 200, function() {
+                    $('#load-more-messages').hide();
+                    $('#load-more-messages').css('top', '60px');
+                });
+            }
+            $('.user-messages').scrollTop(0);
+        }
+        $('#load-more-messages i').removeClass('fa-spinner fa-spin');
+        $('#load-more-messages i').addClass('fa-angle-up');
+    });
+});
+
+$(document).on('click', '#delete-conversation', function(event) {
+    if (!confirm("{{LANG Are You Sure You Want To Delete The Chat}}")) {
+        return false;
+    }
+    $(this).find('i').toggleClass('fa-trash fa-spinner fa-spin');
+    $.post('{{LINK aj/messages/delete_chat}}', {id: $('#user-id').val()}, function(data, textStatus, xhr) {
+        $('#delete-conversation').find('i').removeClass('fa-spinner fa-spin');
+        $('#delete-conversation').find('i').addClass('fa-trash');
+        $('.messages').empty();
+    });
+});
+
+$(function() {
+        setTimeout(function () {
+            fetchMessages();
+        }, messagesInterval);
+       
+        var $id = makeid();
+        window.message_id = $id;
+        var form = $('form#new-message-form');
+        var file_uploading = false;
+
+
+        $('.user-messages').scrollTop($('.user-messages')[0].scrollHeight);
+
+
+
+        $('#search-list').on('keyup', function(event) {
+            $('#search-icon').toggleClass('fa-search fa-spinner fa-spin');
+            $.post('{{LINK aj/messages/search}}', {keyword: $(this).val()}, function(data, textStatus, xhr) {
+                $('#search-icon').toggleClass('fa-spinner fa-spin fa-search ');
+                if (data.status == 200) {           
+                    $('.messages-sidebar .list-unstyled').html(data.users);
+                }
+            });
+        });
+
+        $('#new-message').on('keyup', function(event) {
+            if (event.keyCode == 13 && !event.shiftKey) {
+                $id = makeid();
+                if ($(this).val().length > 1) {
+                    form.submit();
+                } else {
+                    $('#new-message').val('');
+                    //$(".emojionearea-editor").html('');
+                }
+            }
+        });
+
+       form.ajaxForm({
+            url: '{{LINK aj/messages/new}}?hash=' + $('.main_session').val(),
+            data: {message_id: $('#message_id').val()},
+            beforeSubmit: function(formData, jqForm, options) {
+                if ($('.messages').length == 0) {
+                    $('.user-messages').html('<div class="messages"></div>');
+                }
+                 if ($('#new-message').val().length >= 1) {
+                    formData.push({ name: 'message_id', value: $id });
+                     $id = makeid();
+
+                }
+                else {
+                     $('#new-message').val('');
+                }
+               
+            },
+             uploadProgress: function () {
+              if ($("#sendMessasgeFile").val() != '') {
+                form.find('#send-button').html('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-loader"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>');
+                file_uploading = true;
+              }
+            },
+            success: function(data) {
+            if(data.status == 200){
+               $('.data_message[data-id="' + data.message_id + '"]').html(data.message);
+
+                  $('#new-message').val('');
+                    $("#message-record-file").val('');
+                    $("#message-record-name").val('');
+                    $('#sendMessasgeFile').val(''); 
+                
+
+                       if (file_uploading) {
+                    file_uploading = false;
+                    form.find('#send-button').html('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" /></svg>');
+                  }
+
+            }
+
+         if (data.status == 400){
+                $("#file_too_big").modal('show');
+                   Delay(function(){
+              $("#file_too_big").modal('hide');
+             },3000);
+
+                 $('#new-message').val('');
+                    $("#message-record-file").val('');
+                    $("#message-record-name").val('');
+                    $('#sendMessasgeFile').val('');
+
+                       if (file_uploading) {
+                    file_uploading = false;
+                    form.find('#send-button').html('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" /></svg>');
+                  }
+            }
+            }
+        });
+
+        
+    });
+
+    function ShareFile() {
+      $("#new-message").focus();
+      $("form#new-message-form").submit();
+    }
+  
+function ShowMessageOptions(id) {
+        if ( $('#deleteMessage_' + id).hide() ){
+        $('#deleteMessage_' + id).show();
+
+   } else if (  $('#deleteMessage_' + id).show()){
+     $('#deleteMessage_' + id).hide() 
+   }
+  
+}
+function DeleteMessage(message_id) {
+
+
+  $.post('{{LINK aj/messages/delete_message}}', {message_id: message_id},  function (data, textStatus, xhr) {
+    if(data.status == 200) {
+
+
+      $('#messsageId_' + message_id).remove();
+      $('#deleteMessage_' + message_id).remove();
+         
+           
+    }
+  
+
+  });
+}
+</script>

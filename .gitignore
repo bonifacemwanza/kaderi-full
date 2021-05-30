@@ -1,1 +1,6 @@
 config.php
+themes/.DS_Store
+themes/default/.DS_Store
+themes/default/layout/.DS_Store
+themes/default/layout/buttons/.DS_Store
+.DS_Store
