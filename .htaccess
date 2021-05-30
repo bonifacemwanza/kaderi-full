@@ -45,7 +45,7 @@ RewriteRule ^settings/(.*)$ index.php?link1=settings&page=$1 [NC,QSA]
 RewriteRule ^terms/([^\/]+)(\/|)$  index.php?link1=terms&type=$1 [QSA]
 RewriteRule ^go_pro(\/|)$  index.php?link1=go_pro [QSA]
 
-
+RewriteRule ^dashboard/(.*)/(.*)/(.*)/(.*)$ index.php?link1=dashboard&page=$1&user=$2&message_id=$3 [NC,QSA]
 RewriteRule ^dashboard/(.*)/(.*)/(.*)$ index.php?link1=dashboard&page=$1&user=$2 [NC,QSA]
 RewriteRule ^dashboard/(.*)/(.*)$ index.php?link1=dashboard&page=$1&user=$2 [NC,QSA]
 RewriteRule ^dashboard/(.*)$ index.php?link1=dashboard&page=$1 [NC,QSA]
