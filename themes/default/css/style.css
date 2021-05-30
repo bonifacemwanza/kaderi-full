@@ -71,7 +71,7 @@ a.nav-item img {
     display: flex;
     align-items: center;
     min-width: 70px !important;
-    padding: 5px 0;
+    padding: 5px 5px;
     justify-content: center;
 }
 .login-nav{
@@ -101,8 +101,11 @@ a.nav-item img {
     background: white;
     right: 0;
     padding: 0 5px;
-    font-size: 13px;
+    font-size: 12px;
     display: none;
+}
+.profile-dropdown span {
+    min-width: 100px !important;
 }
 .login-nav:hover .profile-dropdown{
    display: block;
