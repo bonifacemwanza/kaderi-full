@@ -526,3 +526,26 @@ function LoadAdminPage($page_url = '', $data = array(), $set_lang = true) {
     }, $page_content);
     return $page_content;
 }
+function ChatExists($id) {
+    global $db, $kd;
+
+  if (!empty($id)){
+     $chat_exits = $db->where("user_one", $kd->user->id)->where("user_two", $id)->getValue(T_CHATS, 'count(*)');
+            if (!empty($chat_exits)) {
+                $db->where("user_two", $kd->user->id)->where("user_one", $id)->update(T_CHATS, array('time' => time()));
+                $db->where("user_one", $kd->user->id)->where("user_two", $id)->update(T_CHATS, array('time' => time()));
+                if ($db->where("user_two", $kd->user->id)->where("user_one", $id)->getValue(T_CHATS, 'count(*)') == 0) {
+                    $db->insert(T_CHATS, array('user_two' => $kd->user->id, 'user_one' => $id,'time' => time()));
+                }
+            } else {
+                $db->insert(T_CHATS, array('user_one' => $kd->user->id, 'user_two' => $id,'time' => time()));
+                if (empty($db->where("user_two", $kd->user->id)->where("user_one", $id)->getValue(T_CHATS, 'count(*)'))) {
+                    $db->insert(T_CHATS, array('user_two' => $kd->user->id, 'user_one' => $id,'time' => time()));
+                }
+            }
+
+        }
+
+            return $chat_exits;
+  
+}
