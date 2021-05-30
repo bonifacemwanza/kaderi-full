@@ -48,7 +48,7 @@ $pages_array = [
 
 $chat_id = 0;
 $chat_user = array();
-var_dump($_GET['message_id']);
+//var_dump($_GET['message_id']);
 if (!empty($_GET['message_id'])) {
     $get_user_id = $db->where('username', Secure($_GET['message_id']))->getValue(T_USERS, 'id');
     if (!empty($get_user_id)) {

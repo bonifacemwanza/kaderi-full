@@ -877,3 +877,38 @@ function Markup($text, $link = true) {
 
     return $text;
 }
+function Time_Elapsed_String($ptime) {
+    global $kd, $lang;
+    $etime = time() - $ptime;
+    if ($etime < 1) {
+        return '0 seconds';
+    }
+    $a        = array(
+        365 * 24 * 60 * 60 => __('year'),
+        30 * 24 * 60 * 60 => __('month'),
+        24 * 60 * 60 => __('day'),
+        60 * 60 => __('hour'),
+        60 => __('minute'),
+        1 => __('second')
+    );
+    $a_plural = array(
+        __('year') => __('years'),
+        __('month') => __('months'),
+        __('day') => __('days'),
+        __('hour') => __('hours'),
+        __('minute') => __('minutes'),
+        __('second') => __('seconds')
+    );
+    foreach ($a as $secs => $str) {
+        $d = $etime / $secs;
+        if ($d >= 1) {
+            $r = round($d);
+            if ($kd->language_type == 'rtl') {
+                $time_ago = __('time_ago') . ' ' . $r . ' ' . ($r > 1 ? $a_plural[$str] : $str);
+            } else {
+                $time_ago = $r . ' ' . ($r > 1 ? $a_plural[$str] : $str) . ' ' . __('time_ago');
+            }
+            return $time_ago;
+        }
+    }
+}
