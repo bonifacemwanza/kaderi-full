@@ -21,15 +21,15 @@
                 </div>
                 
                 <div class="profile-dropdown">
-                    <?php if(!IS_LOGGED){ ?>
+                    <?php if(IS_LOGGED){ ?>
                         <div class="logged-in-div">
-                            <span class="nav5 nav-item">Dashboard</span>
-                            <span class="nav5 nav-item">Logout</span>
+                           <a href="{{LINK dashboard}}" data-load="?link1=dashboard"> <span class="nav5 nav-item">{{LANG Dashboard}}</span></a>
+                           <a href="{{LINK logout}}" data-load="?link1=logout">  <span class="nav5 nav-item">{{LANG Logout}}</span></a>
                         </div>
                     <?php } else { ?> 
                         <div class="logged-out-div">
-                            <span class="nav5 nav-item">Login</span>
-                            <span class="nav5 nav-item">{{LANG Register}}</span>
+                            <a href="{{LINK login}}" data-load="?link1=login"><span class="nav5 nav-item">{{LANG Login}}</span></a> 
+                            <a href="{{LINK register}}" data-load="?link1=register"><span class="nav5 nav-item">{{LANG Register}}</span></a> 
                         </div>
                     <?php } ?>
                 </div>

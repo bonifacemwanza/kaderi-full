@@ -45,6 +45,47 @@ $pages_array = [
    
   
 ];
+
+$chat_id = 0;
+$chat_user = array();
+var_dump($_GET['message_id']);
+if (!empty($_GET['message_id'])) {
+    $get_user_id = $db->where('username', Secure($_GET['message_id']))->getValue(T_USERS, 'id');
+    if (!empty($get_user_id)) {
+        $chat_user = UserData($get_user_id);
+        if ($chat_user->id != $kd->user->id) {
+            $chat_id = $chat_user->id;
+        } else {
+            $chat_user = array();
+        }
+    } else {
+        $chat_user = array();
+    }
+}
+
+if (empty($chat_id)) {
+    $html = LoadPage("dashboard/pages/lists/no_message");
+} else {
+    $messages_html = GetMessages($chat_id, array('chat_user' => $chat_user, 'return_method' => 'html'));
+    if (!empty($messages_html)) {
+        $html = LoadPage("dashboard/pages/lists/messages", array('MESSAGES' => $messages_html));
+    } else {
+        $html = LoadPage("dashboard/pages/lists/no_message");
+    }
+}
+
+$users_html = GetMessagesUserList(array('return_method' => 'html'));
+
+if (empty($users_html)) {
+    $users_html = '<p class="empty_state"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>No users found</p>';
+}
+//$kd->page_url_ = $kd->config->site_url.'/messages';
+$kd->chat_id = $chat_id;
+$kd->chat_user = $chat_user;
+
+$sidebar =  $users_html;
+
+
 $bookstore = '';
 $posted_bookstore = $db->get(T_BOOK_STORE);
 if(!empty($posted_bookstore)){
@@ -147,7 +188,12 @@ $final_page =  LoadPage("dashboard/pages/$kd->dashboard_page", [
          'QUIZ_COUNT' => $user_quiz_total,
          'LESSON_COUNT' => $user_lessons_total,
          'BOOK_COUNT' => count($get_my_lesson),
-         'BOOKSTORE_LIST' => $bookstore        
+         'BOOKSTORE_LIST' => $bookstore,
+         
+        'SIDEBAR' => $sidebar,
+        'HTML' => $html
+    
+                 
 ]);
 
 

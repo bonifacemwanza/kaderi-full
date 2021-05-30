@@ -532,11 +532,12 @@ function GetMessagesUserList($data = array('offset' => 0 ,'limit' => 20 , 'api' 
     if (IS_LOGGED == false) {
         return false;
     }
+    $limit = 20;
 
-    if($data['api'] === true) {
-        $limit = (int)$data['limit'];
-        $offset = (int)$data['offset'];
-    }
+    // if($data['api'] === true) {
+    //     $limit = (int)$data['limit'];
+    //     $offset = (int)$data['offset'];
+    // }
 
     $db->where("user_one", $kd->user->id);
 
@@ -568,13 +569,14 @@ function GetMessagesUserList($data = array('offset' => 0 ,'limit' => 20 , 'api' 
             $get_last_message = $db->where("((from_id = {$kd->user->id} AND to_id = $user->id AND `from_deleted` = '0') OR (from_id = $user->id AND to_id = {$kd->user->id} AND `to_deleted` = '0'))")->orderBy('id', 'DESC')->getOne(T_MESSAGES);
             $get_count_seen = $db->where("to_id = {$kd->user->id} AND from_id = $user->id AND `from_deleted` = '0' AND seen = 0")->orderBy('id', 'DESC')->getValue(T_MESSAGES, 'COUNT(*)');
             if ($return_method == 'html') {
-                $users_html .= LoadPage("messages/ajax/user-list", array(
+                $users_html .= LoadPage("dashboard/pages/lists/choose_receiver", array(
                     'ID' => $user->id,
                     'AVATAR' => $user->avatar,
                     'NAME' => $user->name,
                     'LAST_MESSAGE' => (!empty($get_last_message->text)) ? markUp( strip_tags($get_last_message->text) ) : '',
                     'COUNT' => (!empty($get_count_seen)) ? $get_count_seen : '',
-                    'USERNAME' => $user->username
+                    'USERNAME' => $user->username,
+                    'LOGGED_USER' => $kd->user->username
                 ));
             } else {
                 if ($data['api'] === false) {
@@ -745,17 +747,17 @@ function GetMessages($id, $data = array(),$limit = 50) {
             }
             if ($file_extension == 'mp3' || $file_extension == 'wav') {
                
-                    $media_file .= LoadPage('messages/ajax/audio',array('MEDIASOUND' =>$filename));
+                    $media_file .= LoadPage('dashboard/pages/lists/audio',array('MEDIASOUND' =>$filename));
                 
             }
             if (empty($file)) {
                 $file .= '<i class="fa ' . $icon_size . ' fa-file-o"></i> ' . $fname;
             } 
             if ($file_extension == 'mp4' || $file_extension == 'mkv' || $file_extension == 'avi' || $file_extension == 'webm' || $file_extension == 'mov') {
-                $media_file .= LoadPage('messages/ajax/video',array('MEDIAVIDEO' =>$filename));;
+                $media_file .= LoadPage('dashboard/pages/lists/video',array('MEDIAVIDEO' =>$filename));;
             }  
   
-                     if (isset($media_file) && !empty($media_file)) {
+                if (isset($media_file) && !empty($media_file)) {
                 $last_file_view = $media_file;
             } else {
                 $last_file_view = $start_link . $file . $end_link;
@@ -769,15 +771,15 @@ function GetMessages($id, $data = array(),$limit = 50) {
 
                   
      if ($return_method == 'html') {
-                $message_type = 'incoming';
+                $message_type = 'receiver';
                 $messgefromsender = 'notAplicable';
                 if ($message->from_id == $kd->user->id) {
-                    $message_type = 'outgoing';
+                    $message_type = 'sender';
                    
 
                 }
                
-                $messages_html .= LoadPage("messages/ajax/$message_type", array(
+                $messages_html .= LoadPage("dashboard/pages/lists/$message_type", array(
                 'ID' => $message->id,
                 'AVATAR' => $chat_user->avatar,
                 'NAME' => $chat_user->name,
@@ -833,4 +835,45 @@ function GetMessageButton($username = '') {
         'TEXT' => $button_text,
         'USERNAME' => $username,
     ));
+}
+function Markup($text, $link = true) {
+    if ($link == true) {
+        $link_search = '/\[a\](.*?)\[\/a\]/i';
+        if (preg_match_all($link_search, $text, $matches)) {
+            foreach ($matches[1] as $match) {
+                $match_decode     = urldecode($match);
+                $match_decode_url = $match_decode;
+                $count_url        = mb_strlen($match_decode);
+                if ($count_url > 50) {
+                    $match_decode_url = mb_substr($match_decode_url, 0, 30) . '....' . mb_substr($match_decode_url, 30, 20);
+                }
+                $match_url = $match_decode;
+                if (!preg_match("/http(|s)\:\/\//", $match_decode)) {
+                    $match_url = 'http://' . $match_url;
+                }
+                $text = str_replace('[a]' . $match . '[/a]', '<a href="' . strip_tags($match_url) . '" target="_blank" class="hash" rel="nofollow">' . $match_decode_url . '</a>', $text);
+            }
+        }
+    }
+    $link_search = '/\[img\](.*?)\[\/img\]/i';
+    if (preg_match_all($link_search, $text, $matches)) {
+        foreach ($matches[1] as $match) {
+            $match_decode     = urldecode($match);
+            $text = str_replace('[img]' . $match . '[/img]', '<a href="' . getMedia(strip_tags($match_decode)) . '" target="_blank"><img style="width:300px;border-radius: 20px;" src="' . getMedia(strip_tags($match_decode)) . '"></a>', $text);
+        }
+    }
+
+    $link_search = '/\[vd\](.*?)\[\/vd\]/i';
+
+    if (preg_match_all($link_search, $text, $matches)){
+        foreach ($matches[1] as $match) {
+            $match_decode = urldecode($match);
+            $text         = str_replace('[vd]'.$match. '[/vd]', '<video controls width="250"><source src="'. GetMedia(strip_tags($match_decode)) .'"type="video/mp4"/></video>', $text);
+            // $text         = str_replace('[vd]'.$match. '[/vd]', '<video controls width="250"><source src="'. getMedia(strip_tags($match_decode)) .'"type="video/mov"/></video>', $text);
+             
+        }
+    }
+
+
+    return $text;
 }
