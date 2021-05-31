@@ -63,7 +63,7 @@ if ($first == 'upload_video') {
                             $data = array(
                                 'status' => 200,
                                 'message_id' => secure($_POST['message_id']),
-                                'message' => LoadPage('messages/ajax/outgoing', array(
+                                'message' => LoadPage('dashboard/pages/lists/sender', array(
                                     'ID' => $kd->message->id,
                                     'TEXT' => $kd->message->text
                                 ))
@@ -136,7 +136,7 @@ if ($first == 'upload_media') {
                             $data = array(
                                 'status' => 200,
                                 'message_id' => $_POST['message_id'],
-                                'message' => LoadPage('messages/ajax/outgoing', array(
+                                'message' => LoadPage('dashboard/pages/lists/sender', array(
                                     'ID' => $kd->message->id,
                                     'TEXT' => $kd->message->text
                                 ))
@@ -224,7 +224,7 @@ if ($first == 'new') {
                 $data = array(
                     'status' => 200,
                     'message_id' => $_POST['message_id'],
-                    'message' => LoadPage('messages/ajax/outgoing', array(
+                    'message' => LoadPage('dashboard/pages/lists/sender', array(
                         'ID' => $kd->message->id,
                         'TEXT' => $kd->message->text
                     ))
@@ -246,9 +246,9 @@ if ($first == 'fetch') {
     }
     $messages_html = GetMessages($_POST['id'], array('last_id' => $_POST['last_id'], 'first_id' => $_POST['first_id'], 'return_method' => 'html'));
     if (!empty($messages_html)) {
-        $html = LoadPage("messages/ajax/messages", array('MESSAGES' => $messages_html));
+        $html = LoadPage("dashboard/pages/lists/messages", array('MESSAGES' => $messages_html));
     } else {
-        $html = LoadPage("messages/ajax/no-messages");
+        $html = LoadPage("dashboard/pages/lists/no_messages");
     }
 
     $users_html = GetMessagesUserList(array('return_method' => 'html'));
