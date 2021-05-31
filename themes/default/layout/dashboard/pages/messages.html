@@ -1,6 +1,9 @@
 <div class="header">
     <span>Messages</span>
-    <i onclick="toggleMenu()" class="fas fa-th"></i>
+    <span class="header-toggle-icons">
+        <i onclick="toggleChat()" class="fas fa-comments"></i>
+        <i onclick="toggleMenu()" class="fas fa-th"></i>
+    </span>
 </div>
 <div class="main-area">
     <div class="chat-list">
@@ -10,9 +13,14 @@
         </div>
     </div>
     <div class="messages-container">
+
+
         <div class="chat-box user-messages">
             {{HTML}}
         </div>
+
+
+
         <div class="reply-box">
             <form method="POST" id="new-message-form" enctype="multipart/form-data">
                
@@ -28,6 +36,20 @@
     </div>
 </div>
 <script>
+
+    const chatList = document.querySelector(".chat-list")
+    var chatListOut = false
+    function toggleChat(){
+        if(chatListOut){
+            chatList.style.display = "none"
+            chatListOut = false
+        }else{
+            chatList.style.display = "flex"
+            chatListOut = true
+        }
+
+    }
+
 	<?php if (empty($kd->chat_id)) { ?>
 		$('#new-message').attr('disabled', true);	
 		$('#form#new-message-form').attr('disabled', true);

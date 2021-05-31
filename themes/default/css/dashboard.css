@@ -100,6 +100,7 @@ section{
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .nav-modal{
@@ -175,7 +176,7 @@ section{
     width: 90%;
 }
 .text-list{
-    width: 100%;
+    width: 100% !important;
     flex:1;
     overflow-y: auto;
     border-top: 1px solid #f1f1f1;
@@ -191,10 +192,14 @@ section{
     display: flex;
     border-top: 1px solid rgb(226, 226, 226);
     margin: 0 5px;
-    padding: 3px;
-    padding-top: 5px;
-    padding-bottom: 10px;
     margin-bottom: 5px;
+    max-width: 100%;
+    align-items: center;
+}
+.chat-item a{
+    display: flex;
+    width: 100%;
+    align-items: center;
 }
 .chat-item:hover{
     box-shadow: var(--BOXSHADOW);
@@ -208,17 +213,20 @@ section{
 }
 .chat-photo{
     width: 45px;
+    max-width: 45px;
     height: 45px;
+    max-height: 45px;
     border: 1px solid rgb(226, 226, 226);
     border-radius: 50%;
     background-position: center;
     background-size: cover;
-    margin-right: 5px;
+    margin-left: 5px;
 }
 .chat-details{
-    flex: 1;
+    width: 220px;
     display: flex;
     flex-direction: column;
+    padding-left: 5px;
 }
 .chat-name{
     height: 60%;
@@ -229,11 +237,13 @@ section{
 .chat-footer{
     height: 40%;
     display: flex;
+    width: 100%;
 }
 .chat-message{
     flex: 1;
     font-size: 13px;
     color: gray;
+    overflow-x: hidden;
 
 }
 .chat-arrival{
@@ -244,7 +254,6 @@ section{
     text-align: end;
     margin: 0 4px;
 }
-
 
 .messages-container{
     flex:1;
@@ -264,35 +273,72 @@ section{
     width: 100%;
 }
 .chat-box{
+    height: 72vh;
+    width: 100%;
+}
+.messages{
     padding-top: 10px;
-    flex: 1;
+    width: 100%;
+    height: 100%;
     overflow-y: auto;
 }
 .chat-bubble{
-    margin: 5px 0 ;
-}
-.chat-bubble span{
-    max-width: 80%;
-    padding: 10px;
-    box-shadow: var(--BOXSHADOW);
-    border-radius: 5px;
-    font-weight: 500;
+    width: 100%;
+    margin: 5px 0;
 }
 .left-bubble{
     display: flex;
     justify-content: flex-start;
 }
+
+.reciever-text{
+    max-width: 80%;
+    background-color: #f1f1f1;
+    padding: 10px;
+    box-shadow: var(--BOXSHADOW);
+    border-top-right-radius: 5px ;
+    border-bottom-right-radius: 5px;
+    word-break: break-all;
+    text-align: justify;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+}
+
+
+
 .right-bubble{
     display: flex;
     justify-content: flex-end;
 }
-.left-bubble span{
-    background-color: #f1f1f1;
+.user-message{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 }
-.right-bubble span{
+  
+
+.sender-text{
+    max-width: 80%;
     background-color: var(--ORANGE);
     color: white;
+    padding: 10px;
+    box-shadow: var(--BOXSHADOW);
+    border-top-left-radius: 5px ;
+    border-bottom-left-radius: 5px;
+    word-break: break-all;
+    text-align: justify;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
+
+
+
+
+
 .reply-box{
     height: 10vh;
     background-color: var(--ORANGE);
@@ -786,6 +832,27 @@ section{
     display: flex;
     text-decoration: unset;
 }
+.header-toggle-icons{
+    display: none;
+}
+.header-toggle-icons i{
+    margin: 0 5px;
+}
+footer{
+    width: 100vw;
+    background-color: #333;
+    padding: 20px;
+}
+footer p{
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #aaaaaa;
+}
+footer p span{
+    margin: 5px 10px;
+}
+
 @media (max-width: 750px){
     .header i{
         display: flex;
@@ -808,20 +875,15 @@ section{
     .book-overview-modal{
         max-width: 95%;
     }
+    .chat-list{
+        display: none;
+        position: absolute;
+        left: 0;
+        background: white;
+    }
+    .header-toggle-icons{
+        display: flex;
+    }
 
 }
 
-footer{
-    width: 100vw;
-    background-color: #333;
-    padding: 20px;
-}
-footer p{
-    width: 100%;
-    text-align: center;
-    font-size: 14px;
-    color: #aaaaaa;
-}
-footer p span{
-    margin: 5px 10px;
-}
