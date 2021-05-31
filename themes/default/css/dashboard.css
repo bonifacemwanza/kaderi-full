@@ -100,6 +100,7 @@ section{
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .nav-modal{
@@ -254,13 +255,11 @@ section{
     margin: 0 4px;
 }
 
-
 .messages-container{
     flex:1;
     height: 100%;
     display: flex;
     flex-direction: column;
-    border: 1px solid red;
 }
 .empty_state{
     width: 100%;
@@ -274,54 +273,72 @@ section{
     width: 100%;
 }
 .chat-box{
-    padding-top: 10px;
-    flex: 1;
-    overflow-y: auto;
+    height: 72vh;
     width: 100%;
-    border: 1px solid blue;
 }
 .messages{
+    padding-top: 10px;
     width: 100%;
     height: 100%;
     overflow-y: auto;
 }
-
-
-
 .chat-bubble{
-
-}
-
-.chat-bubble span{
-    max-width: 80%;
-    padding: 10px;
-    box-shadow: var(--BOXSHADOW);
-    border-radius: 5px;
-    font-weight: 500;
+    width: 100%;
+    margin: 5px 0;
 }
 .left-bubble{
     display: flex;
     justify-content: flex-start;
 }
-.right-bubble{
+
+.reciever-text{
     max-width: 80%;
+    background-color: #f1f1f1;
+    padding: 10px;
+    box-shadow: var(--BOXSHADOW);
+    border-top-right-radius: 5px ;
+    border-bottom-right-radius: 5px;
+    word-break: break-all;
+    text-align: justify;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+}
+
+
+
+.right-bubble{
     display: flex;
     justify-content: flex-end;
 }
-.left-bubble span{
+.user-message{
     width: 100%;
-    background-color: #f1f1f1;
+    display: flex;
+    justify-content: flex-end;
 }
-.right-bubble span{
-    width: 100%;
+  
+
+.sender-text{
+    max-width: 80%;
     background-color: var(--ORANGE);
     color: white;
+    padding: 10px;
+    box-shadow: var(--BOXSHADOW);
+    border-top-left-radius: 5px ;
+    border-bottom-left-radius: 5px;
+    word-break: break-all;
+    text-align: justify;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
-.user-message span{
-    max-width: 100px !important;
-    border: 2px solid red;
-    
-}
+
+
+
+
+
 .reply-box{
     height: 10vh;
     background-color: var(--ORANGE);
@@ -815,6 +832,27 @@ section{
     display: flex;
     text-decoration: unset;
 }
+.header-toggle-icons{
+    display: none;
+}
+.header-toggle-icons i{
+    margin: 0 5px;
+}
+footer{
+    width: 100vw;
+    background-color: #333;
+    padding: 20px;
+}
+footer p{
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #aaaaaa;
+}
+footer p span{
+    margin: 5px 10px;
+}
+
 @media (max-width: 750px){
     .header i{
         display: flex;
@@ -837,20 +875,15 @@ section{
     .book-overview-modal{
         max-width: 95%;
     }
+    .chat-list{
+        display: none;
+        position: absolute;
+        left: 0;
+        background: white;
+    }
+    .header-toggle-icons{
+        display: flex;
+    }
 
 }
 
-footer{
-    width: 100vw;
-    background-color: #333;
-    padding: 20px;
-}
-footer p{
-    width: 100%;
-    text-align: center;
-    font-size: 14px;
-    color: #aaaaaa;
-}
-footer p span{
-    margin: 5px 10px;
-}
