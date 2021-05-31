@@ -57,8 +57,18 @@ section{
     height: 100%;
     padding: 5px;
 }
+.photo-div {
+    border: 1px solid rgb(255, 255, 255);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+    box-shadow: var(--BOXSHADOW);
+}
 .user-can img{
     height: 80%;
+    border-radius: 10px;
 }
 .user-can span{
     width: 100%;
@@ -69,8 +79,12 @@ section{
 .nav-option:hover{
     background-color: var(--ORANGE);
     color: white;
-    box-shadow: var(--BOXSHADOW);
-    
+    box-shadow: var(--BOXSHADOW);   
+}
+.nav-option-active{
+    background-color: var(--ORANGE);
+    color: white;
+    box-shadow: var(--BOXSHADOW);   
 }
 .header{
     box-shadow: var(--BOXSHADOW);
