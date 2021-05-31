@@ -100,10 +100,47 @@ a.nav-item img {
 .notification-bubble{
     position: absolute;
     background-color: var(--ORANGE);
-    color: white;
+    color: white !important;
     top: 0;
-    right:0;
+    right: -5px;
+    height: 20px !important;
+    width: 20px;
+    border-radius: 50% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px !important;
+    font-size: 10px;
+    box-shadow: var(--BOXSHADOW);
 }
+
+/* .notifications-container{
+    position: absolute;
+    margin-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    width: 120px;
+    font-size: 12px;
+    background: white;
+    top: -3vh;
+    justify-content: flex-end;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid red;
+} */
+/* .notifications-container span{
+    border-bottom: 1px solid #f1f1f1;
+    display: inline-block;
+    flex:1;
+    padding: 5px;
+}
+.notifications-container span:hover{
+    background: var(--ORANGE);
+    color: white;
+}
+.nav3:hover .notifications-container{
+    border: 1px solid rgb(0, 255, 21);
+} */
 .profile-dropdown{
     position: absolute;
     background: white;
@@ -118,9 +155,6 @@ a.nav-item img {
 .login-nav:hover .profile-dropdown{
    display: block;
 }
-
-
-
 .nav-item:hover{
     background: var(--ORANGE);
     color: white !important;
