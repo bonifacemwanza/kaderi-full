@@ -686,8 +686,8 @@ section{
 .avartar-edit{
     display: flex;
 }
-.user-password-container{
-}
+/* .user-password-container{
+} */
 #user_password_update{
     display: flex;
     flex-direction: column;
@@ -779,6 +779,12 @@ section{
 .answer-header i:hover{
     cursor: pointer;
     color:var(--ORANGE);
+}
+.quiz-card-items a {
+    color: unset;
+    width: 100%;
+    display: flex;
+    text-decoration: unset;
 }
 @media (max-width: 750px){
     .header i{

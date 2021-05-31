@@ -7,6 +7,7 @@ if (IS_LOGGED == false) {
 $user_id                = $kd->user->id;
 $kd->is_admin          = IsAdmin();
 $final_page = '';
+// var_dump($_GET['_id']);
 if (isset($_GET['user']) && !empty($_GET['user']) && ($kd->is_admin === true)) {
     if (empty($db->where('username', Secure($_GET['user']))->getValue(T_USERS, 'count(*)'))) {
         header("Location: " . UrlLink(''));
@@ -43,54 +44,83 @@ $pages_array = [
     'bookstore',
     'reward_points',
     'admin',
+    'book_lessons'
    
   
 ];
-
 $chat_id = 0;
+$sidebar = '';
+$html = '';
 $chat_user = array();
-//var_dump($_GET['message_id']);
-if (!empty($_GET['message_id'])) {
-    $get_user_id = $db->where('username', Secure($_GET['message_id']))->getValue(T_USERS, 'id');
-    if (!empty($get_user_id)) {
-        $chat_user = UserData($get_user_id);
-        if ($chat_user->id != $kd->user->id) {
-            $chat_id = $chat_user->id;
+if(!empty($_GET['page']) && $_GET['page'] == 'messages'){
+    if (!empty($_GET['_id'])) {
+        $get_user_id = $db->where('username', Secure($_GET['_id']))->getValue(T_USERS, 'id');
+        if (!empty($get_user_id)) {
+            $chat_user = UserData($get_user_id);
+            if ($chat_user->id != $kd->user->id) {
+                $chat_id = $chat_user->id;
+            } else {
+                $chat_user = array();
+            }
         } else {
             $chat_user = array();
         }
-    } else {
-        $chat_user = array();
     }
-}
-
-if (empty($chat_id)) {
-    $html = LoadPage("dashboard/pages/lists/no_message");
-} else {
-    $messages_html = GetMessages($chat_id, array('chat_user' => $chat_user, 'return_method' => 'html'));
-    if (!empty($messages_html)) {
-        $html = LoadPage("dashboard/pages/lists/messages", array('MESSAGES' => $messages_html));
-    } else {
+    
+    if (empty($chat_id)) {
         $html = LoadPage("dashboard/pages/lists/no_message");
+    } else {
+        $messages_html = GetMessages($chat_id, array('chat_user' => $chat_user, 'return_method' => 'html'));
+        if (!empty($messages_html)) {
+            $html = LoadPage("dashboard/pages/lists/messages", array('MESSAGES' => $messages_html));
+        } else {
+            $html = LoadPage("dashboard/pages/lists/no_message");
+        }
+    }
+    
+    $users_html = GetMessagesUserList(array('return_method' => 'html'));
+    
+    if (empty($users_html)) {
+        $users_html = '<p class="empty_state"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>No users found</p>';
+    }
+    //$kd->page_url_ = $kd->config->site_url.'/messages';
+    $kd->chat_id = $chat_id;
+    $kd->chat_user = $chat_user;
+    
+    $sidebar =  $users_html;
+}
+
+//var_dump($_GET['message_id']);
+if(!empty($_GET['page']) && $_GET['page'] == 'book_lessons' && !empty($_GET['_id'])){
+    $kd->book_id  = GetBookIdWithUniqid(Secure($_GET['_id']));
+    $booK_query = $db->where('id', $kd->book_id)->get(T_BOOK,1);
+    if(!empty($booK_query)){
+        foreach ($booK_query as $key => $bk) {
+            $kd->bkk = $bk;
+        }
+    }
+
+    $lesson_query = $db->where('book_id', $kd->book_id)->get(T_LESSONS);
+    $lesson_list_html = '';
+    if(!empty($lesson_query)){
+        foreach ($lesson_query as $key => $lesson) {
+
+            $lesson_list_html .= LoadPage('dashboard/pages/lists/book_lessons_list', array(
+            'LESSON_TITLE' => $lesson->lesson_title,
+            'LESSON_UNIQID' => $lesson->lesson_uniqid,
+            'ID'            => $lesson->id
+            ));
+        }
     }
 }
 
-$users_html = GetMessagesUserList(array('return_method' => 'html'));
-
-if (empty($users_html)) {
-    $users_html = '<p class="empty_state"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>No users found</p>';
-}
-//$kd->page_url_ = $kd->config->site_url.'/messages';
-$kd->chat_id = $chat_id;
-$kd->chat_user = $chat_user;
-
-$sidebar =  $users_html;
 
 
 $bookstore = '';
 $posted_bookstore = $db->get(T_BOOK_STORE);
 if(!empty($posted_bookstore)){
     foreach ($posted_bookstore as $key => $bvalue) {
+
          $bookstore .= LoadPage('dashboard/pages/lists/bookstore_list', array(
              'ID' => $bvalue->id,
          	'BOOK_TITLE' => $bvalue->book_name,
@@ -137,6 +167,7 @@ if(!empty($get_my_lesson)){
         'BOOK_TITLE' => $value->book_title,
         'BOOK_COVER' => GetMedia($value->book_cover),
         'BOOK_UNIQID' =>$value->uniqid,
+        'USERNAME' => $kd->user->username,
         'BOOK_PROGRESS' => ($book_total_lessons =! $get_book_progress)? '<span class="card-target-undone">'. $progress_ratio .'</span>' : '<span class="card-target">'. $progress_ratio .'</span>', 
         'BOOK_STATUS' => ($book_total_lessons == $get_book_progress)?  '<span class="card-target">'. __('completed') .'</span>' : '<span class="card-target-undone">'. __('pending') .'</span>'
      ));
