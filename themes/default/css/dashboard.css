@@ -164,7 +164,7 @@ section{
     flex-direction: column;
     align-items: center;
 }
-.chat-list input{
+.chat-list input {
     padding: 10px;
     margin: 10px 0;
     border-radius: 20px;
@@ -172,6 +172,7 @@ section{
     background-color: #fdf2e7;
     outline: none;
     box-shadow: var(--BOXSHADOW);
+    width: 90%;
 }
 .text-list{
     width: 100%;
@@ -179,6 +180,12 @@ section{
     overflow-y: auto;
     border-top: 1px solid #f1f1f1;
     padding-top: 15px;
+}
+.user-list.chat-item a {
+    display: flex;
+    width: 100%;
+    text-decoration: none;
+    color: unset;
 }
 .chat-item{
     display: flex;
@@ -192,6 +199,11 @@ section{
 .chat-item:hover{
     box-shadow: var(--BOXSHADOW);
     background: linear-gradient(to top, rgb(255, 251, 241), rgb(253, 233, 195));
+    cursor: pointer;
+}
+.chat-item-active{
+    box-shadow: var(--BOXSHADOW);
+    background: linear-gradient(to top, rgb(255, 251, 241), rgb(252, 229, 185));
     cursor: pointer;
 }
 .chat-photo{
