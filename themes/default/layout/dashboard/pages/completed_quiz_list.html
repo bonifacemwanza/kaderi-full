@@ -1,10 +1,13 @@
 <div class="quiz-card-items">
-    <span>
-        <img src="{{BOOK_COVER}}" alt="">
-        <div class="quiz-card-footer">
-            <span class="quiz-card-title">{{BOOK_TITLE}}</span>
-            <span class="quiz-card-options">{{LANG Progress}}: {{BOOK_PROGRESS}}</span>
-            <span class="quiz-card-options">{{LANG Status}}: {{BOOK_STATUS}}</span>
-        </div>
-    </span>
+  <a href="{{LINK dashboard/book_lessons/}}{{USERNAME}}/{{BOOK_UNIQID}}/" data-load="?link1=dashboard&page=lessons&user={{USER username}}"><img src="{{BOOK_COVER}}" alt=""> 
+        <span>
+            
+                <div class="quiz-card-footer">
+                    <span class="quiz-card-title">{{BOOK_TITLE}}</span>
+                    <span class="quiz-card-options">{{LANG Progress}}: {{BOOK_PROGRESS}}</span>
+                    <span class="quiz-card-options">{{LANG Status}}: {{BOOK_STATUS}}</span>
+                </div>
+            
+        </span>
+    </a>
 </div>
