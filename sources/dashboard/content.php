@@ -100,8 +100,9 @@ if(!empty($_GET['page']) && $_GET['page'] == 'book_lessons' && !empty($_GET['_id
         }
     }
 
-    $lesson_query = $db->where('book_id', $kd->book_id)->get(T_LESSONS);
-    $join_lessons = $db->rawQuery('SELECT '.T_LESSONS.'.id,  '.T_LESSONS.'.lesson_title FROM '.T_QUIZ_DATA.'.' );
+   
+    $lesson_query = $db->rawQuery("SELECT `lessons`.lesson_title,`lessons`.lesson_number,`lessons`.lesson_uniqid,  `quiz_data`.status,`quiz_data`.score FROM `quiz_data` INNER JOIN `lessons` ON `quiz_data`.book_number = `lessons`.book_id WHERE `quiz_data`.user_id = ".$kd->user->id);
+   
     $lesson_list_html = '';
     if(!empty($lesson_query)){
         foreach ($lesson_query as $key => $lesson) {
@@ -109,7 +110,10 @@ if(!empty($_GET['page']) && $_GET['page'] == 'book_lessons' && !empty($_GET['_id
             $lesson_list_html .= LoadPage('dashboard/pages/lists/book_lessons_list', array(
             'LESSON_TITLE' => $lesson->lesson_title,
             'LESSON_UNIQID' => $lesson->lesson_uniqid,
-            'ID'            => $lesson->id
+            'SCORE' => $lesson->score, 
+            'STATUS' => $lesson->status,
+            'ID' => $lesson->lesson_number   
+
             ));
         }
     }
@@ -222,9 +226,9 @@ $final_page =  LoadPage("dashboard/pages/$kd->dashboard_page", [
          'LESSON_COUNT' => $user_lessons_total,
          'BOOK_COUNT' => count($get_my_lesson),
          'BOOKSTORE_LIST' => $bookstore,
-         
-        'SIDEBAR' => $sidebar,
-        'HTML' => $html
+         'USER_BOOK_LESSONS' => $lesson_list_html,        
+         'SIDEBAR' => $sidebar,
+         'HTML' => $html
     
                  
 ]);
