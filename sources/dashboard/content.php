@@ -37,6 +37,7 @@ $pages_array = [
     'profile',
     'messages',
     'lessons',
+    'book_list',
     'achievements',
     'complete_quiz',
     'bookstore',

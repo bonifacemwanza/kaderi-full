@@ -38,3 +38,15 @@ function redeemBtn(price,points){
         overviewModalOut = true
     }
 }
+var answerModalOut = false
+const answerModal = document.querySelector(".answer-modal")
+
+function toggleAnswerModal(){
+    if(answerModalOut){
+        answerModalOut = false
+        answerModal.style.display="none"
+    }else{
+        answerModalOut = true
+        answerModal.style.display="flex"
+    }
+}
