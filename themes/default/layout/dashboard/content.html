@@ -37,7 +37,7 @@
 					<i class="fas fa-user-shield"></i>
 					<span>{{LANG My Profile}}</span>
 				</a>
-				<a  <?php echo ($kd->dashboard_page == 'profile') ? 'class="nav-item nav-option-active"': 'class="nav-item" ';?>  href="{{LINK dashboard/profile/}}{{USER username}}" data-load="?link1=dashboard&page=profile&user={{USER username}}">
+				<a  class="nav-item"  href="{{LINK logout}}" data-load="?link1=logout">
 					<i class="fas fa-sign-out-alt"></i>
 					<span>{{LANG Logout}}</span>
 				</a>
