@@ -97,6 +97,13 @@ a.nav-item img {
     box-shadow: var(--BOXSHADOW);
     cursor: pointer;
 }
+.notification-bubble{
+    position: absolute;
+    background-color: var(--ORANGE);
+    color: white;
+    top: 0;
+    right:0;
+}
 .profile-dropdown{
     position: absolute;
     background: white;
@@ -283,14 +290,18 @@ a.nav-item img {
     min-height: 100px;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
-.contact-inputs input[type="submit"]{
+.contact-inputs input[type="submit"] {
+    cursor: pointer;
     margin-bottom: 6px;
     padding: 10px;
     font-size: 15px;
     border: none;
     background: var(--ORANGE);
     color: white;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    box-shadow: rgb(0 0 0 / 12%) 0px 1px 3px, rgb(0 0 0 / 24%) 0px 1px 2px;
+}
+.contact-inputs input[type="submit"]:hover{
+    background: orange;
 }
 
 .contact-inputs p{

@@ -6,6 +6,10 @@
             <a onclick="nav1()" href="{{LINK home}}" data-load="?link1=home"><span class="nav1 nav-item nav-active">{{LANG Home}}</span></ap>
             <a onclick="nav2()" href="{{LINK about}}" data-load="?link1=about"><span class="nav2 nav-item ">{{LANG About}}</span></a>
             <a onclick="nav3()" href="{{LINK lesson}}" data-load="?link1=lesson"><span class="nav3 nav-item ">{{LANG Lessons}}</span></a>
+            <a onclick="nav5()" href="" data-load="?link1=lesson" style="position: relative;">
+                <span class="nav3 nav-item ">Notifications</span>
+                <span class="notification-bubble">22</span>
+            </a>
             <a onclick="nav4()" href="{{LINK contact}}" data-load="?link1=contact"> <span class="nav4 nav-item">{{LANG Contact}}</span></a>
             <?php if($_SESSION['lang'] == 'turkish'){ ?>
                   
