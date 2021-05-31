@@ -7,12 +7,12 @@ $sql_db_host = "localhost";
 $sql_db_user = "root";
 // MySQL Database Password
 //$sql_db_pass = "";
-$sql_db_pass = "root";
+$sql_db_pass = "";
 // MySQL Database Name
 $sql_db_name = "kaderi";
 
 // Site URL
-$site_url = "http://localhost:8888/kaderi-full/";
+$site_url = "http://localhost/pauljere/kaderi-full/";
 
 
 
