@@ -9,6 +9,10 @@
 			</div>
 
 			<div class="modal-body">
+				<a  <?php echo ($kd->dashboard_page == 'dashboard') ? 'class="nav-item active"': 'class="nav-item" ';?>  href="{{LINK dashboard/dashboard/}}{{USER username}}" data-load="?link1=dashboard&page=dashboard&user={{USER username}}">
+					<i class="fa fa-dashboard"></i>
+					<span>{{LANG Dashboard}}</span>
+				</a>
 				<a  <?php echo ($kd->dashboard_page == 'lessons') ? 'class="nav-item active"': 'class="nav-item" ';?>  href="{{LINK dashboard/lessons/}}{{USER username}}" data-load="?link1=dashboard&page=lessons&user={{USER username}}">
 					<i class="fas fa-copy"></i>
 					<span>{{LANG My Courses}}</span>
