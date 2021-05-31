@@ -101,6 +101,7 @@ if(!empty($_GET['page']) && $_GET['page'] == 'book_lessons' && !empty($_GET['_id
     }
 
     $lesson_query = $db->where('book_id', $kd->book_id)->get(T_LESSONS);
+    $join_lessons = $db->rawQuery('SELECT '.T_LESSONS.'.id,  '.T_LESSONS.'.lesson_title FROM '.T_QUIZ_DATA.'.' );
     $lesson_list_html = '';
     if(!empty($lesson_query)){
         foreach ($lesson_query as $key => $lesson) {
