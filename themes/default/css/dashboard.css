@@ -81,10 +81,10 @@ section{
     color: white;
     box-shadow: var(--BOXSHADOW);   
 }
-.nav-option-active{
-    background-color: var(--ORANGE);
-    color: white;
-    box-shadow: var(--BOXSHADOW);   
+.modal-body .nav-option-active{
+    background-color: var(--ORANGE) !important;
+    color: white !important;
+    box-shadow: var(--BOXSHADOW) !important;   
 }
 .notification-bubble{
     position: absolute;

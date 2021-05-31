@@ -7,6 +7,7 @@ if (IS_LOGGED == false) {
 $user_id                = $kd->user->id;
 $kd->is_admin          = IsAdmin();
 $final_page = '';
+$lesson_list_html = '';
 // var_dump($_GET['_id']);
 if (isset($_GET['user']) && !empty($_GET['user']) && ($kd->is_admin === true)) {
     if (empty($db->where('username', Secure($_GET['user']))->getValue(T_USERS, 'count(*)'))) {
