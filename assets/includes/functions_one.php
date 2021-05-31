@@ -575,6 +575,7 @@ function GetMessagesUserList($data = array('offset' => 0 ,'limit' => 20 , 'api' 
                     'NAME' => $user->name,
                     'LAST_MESSAGE' => (!empty($get_last_message->text)) ? markUp( strip_tags($get_last_message->text) ) : '',
                     'COUNT' => (!empty($get_count_seen)) ? $get_count_seen : '',
+                    'TIME'  => Time_Elapsed_String($get_last_message->time),
                     'USERNAME' => $user->username,
                     'LOGGED_USER' => $kd->user->username
                 ));
