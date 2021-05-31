@@ -3,8 +3,95 @@
     <i onclick="toggleMenu()" class="fas fa-th"></i>
 </div>
 <div class="main-area">
-    <div class="chat_llist">
-        {{SIDEBAR}}
+    <div class="chat-list">
+        <input type="search" name="" id="" placeholder="Search...">
+        <div class="text-list">
+            
+            <div class="chat-item">
+                <div class="chat-photo" style="background-image: url('https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')"></div>
+                <div class="chat-details">
+                    <div class="chat-name">
+                        Robert Downey Jr
+                    </div>
+                    <div class="chat-footer">
+                        <div class="chat-message">
+                            hello! i hope you are well?
+                        </div>
+                        <div class="chat-arrival">
+                            3 days
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-item">
+                <div class="chat-photo" style="background-image: url('https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')"></div>
+                <div class="chat-details">
+                    <div class="chat-name">
+                        Robert Downey Jr
+                    </div>
+                    <div class="chat-footer">
+                        <div class="chat-message">
+                            hello! i hope you are well?
+                        </div>
+                        <div class="chat-arrival">
+                            3 days
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-item">
+                <div class="chat-photo" style="background-image: url('https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')"></div>
+                <div class="chat-details">
+                    <div class="chat-name">
+                        Robert Downey Jr
+                    </div>
+                    <div class="chat-footer">
+                        <div class="chat-message">
+                            hello! i hope you are well?
+                        </div>
+                        <div class="chat-arrival">
+                            3 days
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-item">
+                <div class="chat-photo" style="background-image: url('https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')"></div>
+                <div class="chat-details">
+                    <div class="chat-name">
+                        Robert Downey Jr
+                    </div>
+                    <div class="chat-footer">
+                        <div class="chat-message">
+                            hello! i hope you are well?
+                        </div>
+                        <div class="chat-arrival">
+                            3 days
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-item">
+                <div class="chat-photo" style="background-image: url('https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')"></div>
+                <div class="chat-details">
+                    <div class="chat-name">
+                        Robert Downey Jr
+                    </div>
+                    <div class="chat-footer">
+                        <div class="chat-message">
+                            hello! i hope you are well?
+                        </div>
+                        <div class="chat-arrival">
+                            3 days
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="messages-container">
         <div class="chat-box user-messages">
@@ -12,13 +99,11 @@
         </div>
         <div class="reply-box">
             <form method="POST" id="new-message-form" enctype="multipart/form-data">
-                <textarea name="new-message" id="new-message" ></textarea>
+                <textarea></textarea>
+                <!-- <textarea name="new-message" id="new-message"></textarea> -->
                 <button>
-                    {{LANG Send}}
+                    <i class="fas fa-paper-plane"></i>
                 </button>
-                
-
-              
                 <input type="hidden" id="user-id" name="id" value="<?php echo $kd->chat_id; ?>">
                 <input type="hidden" id="user-avatar" value="<?php echo (isset($kd->chat_user->avatar)) ? $kd->chat_user->avatar : '';?>">
                 
