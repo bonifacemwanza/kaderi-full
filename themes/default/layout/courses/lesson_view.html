@@ -8,12 +8,16 @@
 					<span class="chapter-title">Chapter 3</span>
 				</div>
 				<div class="audio-and-chapters">
-					<span onclick="toggleSideBar()" class="chatpers-icon">
+					<span onclick="toggleSideBar()" class="chapters-icon">
 						<i class="fas fa-file-alt"></i>
 					</span>
-					<span onclick="toggleAudio()" class="play-icons">
+					<span onclick="toggleAudio('hello')" class="play-icons">
 						<i class="fas fa-play-circle"></i>
+						
 					</span>
+					<audio id="lessonAudio">
+							<source src="https://fr03.mp3snow.com/2bb7da4a5c39fa8dcc362/Billie%20Eilish%20-%20lovely%20ft.%20Khalid.mp3" type="audio/mpeg">
+						</audio>
 				</div>
 			</div>
 			<div class="preview-body">
@@ -82,6 +86,21 @@
 	</div>
 </main>
 <script type="text/javascript">
+	var toggleAudioIcon = false
+	const AudioDiv =  document.querySelector(".play-icons")
+	const lessonAudio = document.getElementById("lessonAudio");
+	function toggleAudio(){
+		if(toggleAudioIcon){
+			lessonAudio.pause()
+			AudioDiv.innerHTML =  `<i class="fas fa-play-circle"></i>`
+			toggleAudioIcon = false
+		}
+		else{
+			lessonAudio.play()
+			AudioDiv.innerHTML =  `<i class="fas fa-pause-circle"></i>`
+			toggleAudioIcon = true
+		}
+	}
 	// $(document).ready(function(){
 	// 	$("#clear-selection").click(function(){
 	// 	$("input:radio").attr("checked", false);

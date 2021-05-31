@@ -117,19 +117,7 @@ function toggleNav(){
     }
 }
 
-var toggleAudioIcon = false
-const toggleAudioDiv =  document.querySelector(".play-icons")
-function toggleAudio(){
-    if(toggleAudioIcon){
-        toggleAudioDiv.innerHTML =  `<i class="fas fa-play-circle"></i>`
-        toggleAudioIcon = false
-    }
-    else{
-        toggleAudioIcon = true
-        toggleAudioDiv.innerHTML =  `<i class="fas fa-pause-circle"></i>`
 
-    }
-}
 
 
 

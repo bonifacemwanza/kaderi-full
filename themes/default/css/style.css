@@ -516,6 +516,9 @@ footer{
 .instructor-container{
     display:none;
 }
+.chapters-icon{
+    display: none;
+}
 .audio-and-chapters{
 }
 .audio-and-chapters i{
@@ -728,6 +731,9 @@ footer{
     .nav-items a{
         width: 100%;
         margin: 5px 0;
+    }
+    .chapters-icon{
+        display: inline;
     }
     .profile-dropdown{
         top: -14px;
