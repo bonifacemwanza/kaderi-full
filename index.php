@@ -66,6 +66,7 @@ $dashboad_header = LoadPage('header/dashboard', array(
 ));
 $site_header = LoadPage('header/content', array(
     'BOOKS' => $books_a,
+    'USER_DATA' => (IS_LOGGED)? $user : '',
     
 ));
 $select_header = ($kd->page == 'dashboard')? $dashboad_header : $site_header;

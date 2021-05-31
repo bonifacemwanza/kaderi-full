@@ -17,7 +17,7 @@
              <?php } ?>
             <!-- <a onclick="nav5()" href="{{LINK register}}" data-load="?link1=register"><span class="nav5 nav-item">{{LANG Register}}</span></a> -->
             <span class="login-nav" onclick="showProfileDiv()" data-load="?link1=register">
-                <div class="photo-div" style="background-image: url('https://www.happitime.co.uk/images/uploads/profile.jpg');">
+                <div class="photo-div" style="background-image: url('<?php echo (IS_LOGGED)? $kd->user->avatar : 'https://www.happitime.co.uk/images/uploads/profile.jpg' ?>');">
                 </div>
                 
                 <div class="profile-dropdown">
