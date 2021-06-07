@@ -102,17 +102,20 @@ if(!empty($_GET['page']) && $_GET['page'] == 'book_lessons' && !empty($_GET['_id
     }
 
    
-    $lesson_query = $db->rawQuery("SELECT `lessons`.lesson_title,`lessons`.lesson_number,`lessons`.lesson_uniqid,  `quiz_data`.status,`quiz_data`.score FROM `quiz_data` INNER JOIN `lessons` ON `quiz_data`.book_number = `lessons`.book_id WHERE `quiz_data`.user_id = ".$kd->user->id);
-   
+    // $lesson_query = $db->rawQuery("SELECT `lessons`.lesson_title,`lessons`.lesson_number,`lessons`.lesson_uniqid,  `quiz_data`.status,`quiz_data`.score FROM `quiz_data` INNER JOIN `lessons` ON `quiz_data`.book_number = `lessons`.book_id WHERE `quiz_data`.user_id = ".$kd->user->id);
+    $lesson_query = $db->where('book_id', $kd->book_id)->get(T_LESSONS);
     $lesson_list_html = '';
     if(!empty($lesson_query)){
         foreach ($lesson_query as $key => $lesson) {
-
+            
+            $data_ =  QuizData($lesson->lesson_number);
+         
             $lesson_list_html .= LoadPage('dashboard/pages/lists/book_lessons_list', array(
             'LESSON_TITLE' => $lesson->lesson_title,
             'LESSON_UNIQID' => $lesson->lesson_uniqid,
-            'SCORE' => $lesson->score, 
-            'STATUS' => $lesson->status,
+            'QUIZ_TAKEN'    => ($data_)? __('attemped'): '-', 
+            'SCORE' => ($data_)? $data_->score : '-', 
+            'STATUS' => ($data_)? $data_->status : '-',
             'ID' => $lesson->lesson_number   
 
             ));
@@ -120,6 +123,16 @@ if(!empty($_GET['page']) && $_GET['page'] == 'book_lessons' && !empty($_GET['_id
     }
 }
 
+function QuizData ($id){
+    global $db, $kd;
+    $user_log = $db->where('lesson_number', $id)->where('user_id', $kd->user->id)->getOne(T_QUIZ_DATA);
+    if($user_log){
+       return $user_log;  
+    } else {
+        return null;
+    }
+   
+}
 
 
 $bookstore = '';
