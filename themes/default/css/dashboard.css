@@ -871,6 +871,9 @@ section{
 .header-toggle-icons i{
     margin: 0 5px;
 }
+.lesson-title-cell{
+    text-align: start;
+}
 footer{
     width: 100vw;
     background-color: #333;
