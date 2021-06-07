@@ -1,7 +1,12 @@
-
-<small>{{LANG Quiz Status}}: <span>{{LANG Completed}}</span> </small>
-<h3 class="course-title">{{LANG Congratulations}}, <b> <?php echo $kd->user->username; ?> </b>{{LANG You Have Successfully This Quiz}}</h3>
-<h3 class="quiz-points">{{LANG You Gave Earned}}: <b> {{FINAL_POINT}}</b></h3>
-<div class="quiz-wrapper">
-   <div class="review">{{REVIEW_HTML}}</div>
-</div>
+<section class="completed-quiz">
+   <span class="final-header-text">{{Lang You are Done}}!</span>
+   <span class="quiz-message">{{LANG Congratulations}}! {{LANG you completed the quiz}}</span>
+   <span class="quiz-score">Score: <strong>{{FINAL_POINT}}</strong></span>
+   <span class="failed-questions">{{LANG Failed Questions}}</span>
+     {{REVIEW_HTML}}
+   <div class="bottom-nav-btns">
+       <button class="redo-btn">Redo Quiz</button>
+       <button class="save-btn">Save Points</button>
+       <button class="next-btn">Next Lesson</button>
+   </div>
+</section>

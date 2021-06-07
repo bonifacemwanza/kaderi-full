@@ -47,7 +47,7 @@ if($first == 'check'){
 
 	}
 
-   
+  
 
     $quiz_review = '';
 	$progress_percentage = '';
@@ -77,12 +77,12 @@ if($first == 'check'){
 		$quiz_data_exists = $db->insert(T_QUIZ_DATA, $data);
 	 }
 
-
+	
 	if($quiz_number == $q_total){
-
+// var_dump($_SESSION['question']);
 		for ($i = 0; $i <= count($_SESSION['question']); ++$i) {
 			if($_SESSION['question'][ $i ] != NULL){
-				$quiz_review .=  '<p><b>Soru '.$i.'</b> '.$_SESSION['question'][ $i ].' - <font color="red"><b>'.$_SESSION['answer'][ $i ].'</font></b></p>';	
+				$quiz_review .=  '<span class="failed-Q-item">'.$i.' '.$_SESSION['question'][ $i ].' </span><span class="failed-A-item">'.$_SESSION['answer'][ $i ].'</span>';	
 			}
 		}
 		$save_point = $db->where('id', $kd->user->id)->update(T_USERS,array('points'=>$db->inc(Secure($_SESSION['score']))));
